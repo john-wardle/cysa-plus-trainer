@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   BarChart3,
   BookOpen,
@@ -22,6 +22,33 @@ type Question = {
   correct: string[]
   explanation: string
   multiSelect?: boolean
+}
+
+type StudyStats = {
+  questionsAnswered: number
+  questionsCorrect: number
+}
+
+const defaultStudyStats: StudyStats = {
+  questionsAnswered: 0,
+  questionsCorrect: 0,
+}
+
+function loadStudyStats(): StudyStats {
+  try {
+    const saved = localStorage.getItem('cysa-study-stats')
+
+    if (!saved) return defaultStudyStats
+
+    const parsed = JSON.parse(saved) as Partial<StudyStats>
+
+    return {
+      questionsAnswered: parsed.questionsAnswered ?? 0,
+      questionsCorrect: parsed.questionsCorrect ?? 0,
+    }
+  } catch {
+    return defaultStudyStats
+  }
 }
 
 const questions: Question[] = [
@@ -86,8 +113,21 @@ function App() {
   const [selected, setSelected] = useState<string[]>([])
   const [submitted, setSubmitted] = useState(false)
   const [correctCount, setCorrectCount] = useState(0)
+  const [studyStats, setStudyStats] = useState<StudyStats>(loadStudyStats)
+
+  useEffect(() => {
+    localStorage.setItem('cysa-study-stats', JSON.stringify(studyStats))
+  }, [studyStats])
+
+  const readiness =
+    studyStats.questionsAnswered === 0
+      ? 0
+      : Math.round(
+          (studyStats.questionsCorrect / studyStats.questionsAnswered) * 100,
+        )
 
   const question = questions[questionIndex]
+
   const isCorrect =
     selected.length === question.correct.length &&
     selected.every((answer) => question.correct.includes(answer))
@@ -109,7 +149,14 @@ function App() {
 
   function submitAnswer() {
     if (selected.length === 0 || submitted) return
+
     setSubmitted(true)
+
+    setStudyStats((stats) => ({
+      questionsAnswered: stats.questionsAnswered + 1,
+      questionsCorrect: stats.questionsCorrect + (isCorrect ? 1 : 0),
+    }))
+
     if (isCorrect) setCorrectCount((score) => score + 1)
   }
 
@@ -148,6 +195,7 @@ function App() {
               <p className="text-xs text-slate-400">Practice • Analyze • Defend</p>
             </div>
           </div>
+
           <span className="rounded-full border border-cyan-400/25 bg-cyan-400/10 px-3 py-1 text-sm text-cyan-200">
             Study streak: 4 days
           </span>
@@ -174,8 +222,8 @@ function App() {
 
         <section className="space-y-8">
           {activeMode === 'PBQ Labs' ? (
-  <SiemPbq />
-) : activeMode === 'Practice' ? (
+            <SiemPbq />
+          ) : activeMode === 'Practice' ? (
             <>
               <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
                 <div>
@@ -186,10 +234,11 @@ function App() {
                     {question.domain}
                   </h2>
                   <p className="mt-2 text-slate-400">
-                    Question {questionIndex + 1} of {questions.length} · Score:{' '}
+                    Question {questionIndex + 1} of {questions.length} · Session score:{' '}
                     {correctCount}
                   </p>
                 </div>
+
                 <div className="h-2 w-full overflow-hidden rounded-full bg-slate-800 sm:w-56">
                   <div
                     className="h-full rounded-full bg-cyan-400 transition-all"
@@ -269,7 +318,9 @@ function App() {
                       )}
                       {isCorrect ? 'Correct' : 'Not quite'}
                     </div>
-                    <p className="mt-2 leading-6 text-slate-200">{question.explanation}</p>
+                    <p className="mt-2 leading-6 text-slate-200">
+                      {question.explanation}
+                    </p>
                   </div>
                 )}
 
@@ -309,18 +360,28 @@ function App() {
               <div className="grid gap-4 md:grid-cols-3">
                 <article className="rounded-2xl border border-cyan-400/20 bg-cyan-400/10 p-5">
                   <p className="text-sm text-cyan-100">Overall readiness</p>
-                  <p className="mt-2 text-4xl font-bold">61%</p>
-                  <p className="mt-2 text-sm text-slate-300">Up 8% from last week</p>
+                  <p className="mt-2 text-4xl font-bold">{readiness}%</p>
+                  <p className="mt-2 text-sm text-slate-300">
+                    Based on saved question results
+                  </p>
                 </article>
+
                 <article className="rounded-2xl border border-slate-800 bg-slate-900 p-5">
                   <p className="text-sm text-slate-400">Questions completed</p>
-                  <p className="mt-2 text-4xl font-bold">135</p>
-                  <p className="mt-2 text-sm text-slate-400">Target: 500 before exam day</p>
+                  <p className="mt-2 text-4xl font-bold">
+                    {studyStats.questionsAnswered}
+                  </p>
+                  <p className="mt-2 text-sm text-slate-400">
+                    Target: 500 before exam day
+                  </p>
                 </article>
+
                 <article className="rounded-2xl border border-slate-800 bg-slate-900 p-5">
-                  <p className="text-sm text-slate-400">PBQ labs completed</p>
-                  <p className="mt-2 text-4xl font-bold">2 / 12</p>
-                  <p className="mt-2 text-sm text-amber-300">Next: SIEM alert triage</p>
+                  <p className="text-sm text-slate-400">PBQ labs available</p>
+                  <p className="mt-2 text-4xl font-bold">1 / 12</p>
+                  <p className="mt-2 text-sm text-amber-300">
+                    Next: SIEM alert triage
+                  </p>
                 </article>
               </div>
 
