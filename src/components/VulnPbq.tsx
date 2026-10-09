@@ -136,6 +136,25 @@ function VulnPbq() {
   const totalScore = priorityScore + validationScore + actionScore
   const isPassing = totalScore >= 9
 
+  const missedPriorities = scanFindings.filter(
+    (item) => item.priority && !selectedPriorities.includes(item.id),
+  )
+  const wrongPriorities = scanFindings.filter(
+    (item) => !item.priority && selectedPriorities.includes(item.id),
+  )
+  const missedValidations = scanFindings.filter(
+    (item) => item.needsValidation && !selectedValidations.includes(item.id),
+  )
+  const wrongValidations = scanFindings.filter(
+    (item) => !item.needsValidation && selectedValidations.includes(item.id),
+  )
+  const missedActions = remediationActions.filter(
+    (item) => item.correct && !selectedActions.includes(item.id),
+  )
+  const wrongActions = remediationActions.filter(
+    (item) => !item.correct && selectedActions.includes(item.id),
+  )
+
   function resetLab() {
     setSelectedPriorities([])
     setSelectedValidations([])
@@ -339,7 +358,57 @@ function VulnPbq() {
             )}
             PBQ score: {totalScore} / {maxScore}
           </div>
-          <p className="mt-2 leading-6 text-slate-200">
+
+          <div className="mt-4 space-y-3 text-sm">
+            {missedPriorities.length > 0 && (
+              <p className="text-emerald-300">
+                <span className="font-medium">Missed priorities: </span>
+                {missedPriorities.map((item) => `${item.asset} (${item.vulnerability})`).join(' · ')}
+              </p>
+            )}
+            {wrongPriorities.length > 0 && (
+              <p className="text-rose-300">
+                <span className="font-medium">Incorrectly prioritized: </span>
+                {wrongPriorities.map((item) => `${item.asset} (${item.vulnerability})`).join(' · ')}
+              </p>
+            )}
+            {missedValidations.length > 0 && (
+              <p className="text-emerald-300">
+                <span className="font-medium">Missed validation flags: </span>
+                {missedValidations.map((item) => `${item.asset} (${item.vulnerability})`).join(' · ')}
+              </p>
+            )}
+            {wrongValidations.length > 0 && (
+              <p className="text-rose-300">
+                <span className="font-medium">Incorrectly flagged for validation: </span>
+                {wrongValidations.map((item) => `${item.asset} (${item.vulnerability})`).join(' · ')}
+              </p>
+            )}
+            {missedActions.length > 0 && (
+              <p className="text-emerald-300">
+                <span className="font-medium">Missed actions: </span>
+                {missedActions.map((item) => item.title).join(' · ')}
+              </p>
+            )}
+            {wrongActions.length > 0 && (
+              <p className="text-rose-300">
+                <span className="font-medium">Incorrectly selected: </span>
+                {wrongActions.map((item) => item.title).join(' · ')}
+              </p>
+            )}
+            {missedPriorities.length === 0 &&
+              wrongPriorities.length === 0 &&
+              missedValidations.length === 0 &&
+              wrongValidations.length === 0 &&
+              missedActions.length === 0 &&
+              wrongActions.length === 0 && (
+                <p className="text-emerald-300">
+                  All priorities, validation flags, and actions identified correctly.
+                </p>
+              )}
+          </div>
+
+          <p className="mt-4 leading-6 text-slate-200">
             WEB-01 is the top priority: internet-facing, critical asset, CVSS 9.8, and a
             public exploit. DB-02 is second: critical asset but no public exploit and
             internal-only. APP-07 needs validation before closure. PRN-03 should be

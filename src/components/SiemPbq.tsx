@@ -102,6 +102,19 @@ function SiemPbq() {
   const totalScore = indicatorScore + actionScore
   const isPassing = totalScore >= 8
 
+  const missedIndicators = indicators.filter(
+    (item) => item.correct && !selectedIndicators.includes(item.id),
+  )
+  const wrongIndicators = indicators.filter(
+    (item) => !item.correct && selectedIndicators.includes(item.id),
+  )
+  const missedActions = actions.filter(
+    (item) => item.correct && !selectedActions.includes(item.id),
+  )
+  const wrongActions = actions.filter(
+    (item) => !item.correct && selectedActions.includes(item.id),
+  )
+
   function resetLab() {
     setSelectedIndicators([])
     setSelectedActions([])
@@ -263,7 +276,43 @@ function SiemPbq() {
             )}
             PBQ score: {totalScore} / {maxScore}
           </div>
-          <p className="mt-2 leading-6 text-slate-200">
+
+          <div className="mt-4 space-y-3 text-sm">
+            {missedIndicators.length > 0 && (
+              <p className="text-emerald-300">
+                <span className="font-medium">Missed indicators: </span>
+                {missedIndicators.map((item) => item.title).join(' · ')}
+              </p>
+            )}
+            {wrongIndicators.length > 0 && (
+              <p className="text-rose-300">
+                <span className="font-medium">Incorrectly selected: </span>
+                {wrongIndicators.map((item) => item.title).join(' · ')}
+              </p>
+            )}
+            {missedActions.length > 0 && (
+              <p className="text-emerald-300">
+                <span className="font-medium">Missed actions: </span>
+                {missedActions.map((item) => item.title).join(' · ')}
+              </p>
+            )}
+            {wrongActions.length > 0 && (
+              <p className="text-rose-300">
+                <span className="font-medium">Incorrectly selected: </span>
+                {wrongActions.map((item) => item.title).join(' · ')}
+              </p>
+            )}
+            {missedIndicators.length === 0 &&
+              wrongIndicators.length === 0 &&
+              missedActions.length === 0 &&
+              wrongActions.length === 0 && (
+                <p className="text-emerald-300">
+                  All indicators and actions identified correctly.
+                </p>
+              )}
+          </div>
+
+          <p className="mt-4 leading-6 text-slate-200">
             The evidence supports account compromise: a new MFA method, impossible
             travel, an unmanaged device, and a suspicious mailbox-forwarding rule.
             Contain the account, revoke active access, and preserve evidence before

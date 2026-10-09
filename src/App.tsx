@@ -90,6 +90,13 @@ function App() {
     selected.length === question.correct.length &&
     selected.every((answer) => question.correct.includes(answer))
 
+  const missedCorrect = question.correct.filter((id) => !selected.includes(id))
+  const incorrectSelected = selected.filter(
+    (id) => !question.correct.includes(id),
+  )
+  const choiceText = (id: string) =>
+    question.choices.find((choice) => choice.id === id)?.text ?? ''
+
   useEffect(() => {
     localStorage.setItem('cysa-study-stats', JSON.stringify(studyStats))
   }, [studyStats])
@@ -475,7 +482,25 @@ function App() {
                         )}
                         {isCorrect ? 'Correct' : 'Not quite'}
                       </div>
-                      <p className="mt-2 leading-6 text-slate-200">
+
+                      {!isCorrect && (
+                        <div className="mt-3 space-y-2 text-sm">
+                          {missedCorrect.length > 0 && (
+                            <p className="text-emerald-300">
+                              <span className="font-medium">Missed correct answer:{' '}</span>
+                              {missedCorrect.map((id) => choiceText(id)).join(' · ')}
+                            </p>
+                          )}
+                          {incorrectSelected.length > 0 && (
+                            <p className="text-rose-300">
+                              <span className="font-medium">Incorrectly selected:{' '}</span>
+                              {incorrectSelected.map((id) => choiceText(id)).join(' · ')}
+                            </p>
+                          )}
+                        </div>
+                      )}
+
+                      <p className="mt-3 leading-6 text-slate-200">
                         {question.explanation}
                       </p>
                     </div>
