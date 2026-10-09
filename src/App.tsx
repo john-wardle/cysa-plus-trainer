@@ -13,6 +13,7 @@ import {
   XCircle,
 } from 'lucide-react'
 import SiemPbq from './components/SiemPbq'
+import VulnPbq from './components/VulnPbq'
 import { cysaDomains, questionBank } from './data/questionBank'
 
 type StudyStats = {
@@ -56,6 +57,7 @@ function App() {
 
   const [activeMode, setActiveMode] = useState('Dashboard')
   const [selectedDomain, setSelectedDomain] = useState('All Domains')
+  const [selectedPbq, setSelectedPbq] = useState<string | null>(null)
   const [questionIndex, setQuestionIndex] = useState(0)
   const [selected, setSelected] = useState<string[]>([])
   const [submitted, setSubmitted] = useState(false)
@@ -164,6 +166,10 @@ function App() {
       return
     }
 
+    if (label !== 'PBQ Labs') {
+      setSelectedPbq(null)
+    }
+
     setActiveMode(label)
   }
 
@@ -222,7 +228,84 @@ function App() {
 
         <section className="space-y-8">
           {activeMode === 'PBQ Labs' ? (
-            <SiemPbq />
+            selectedPbq === 'siem' ? (
+              <div className="space-y-4">
+                <button
+                  className="inline-flex items-center gap-2 text-sm text-slate-400 transition hover:text-cyan-300"
+                  onClick={() => setSelectedPbq(null)}
+                >
+                  ← Back to lab directory
+                </button>
+                <SiemPbq />
+              </div>
+            ) : selectedPbq === 'vuln' ? (
+              <div className="space-y-4">
+                <button
+                  className="inline-flex items-center gap-2 text-sm text-slate-400 transition hover:text-cyan-300"
+                  onClick={() => setSelectedPbq(null)}
+                >
+                  ← Back to lab directory
+                </button>
+                <VulnPbq />
+              </div>
+            ) : (
+              <div className="space-y-6">
+                <div>
+                  <p className="mb-2 text-sm font-medium text-cyan-300">PBQ LABS</p>
+                  <h2 className="text-3xl font-bold tracking-tight">
+                    Hands-on investigation practice.
+                  </h2>
+                  <p className="mt-2 max-w-2xl text-slate-400">
+                    Performance-based labs that simulate real analyst workflows.
+                    Select a lab to begin.
+                  </p>
+                </div>
+
+                <div className="grid gap-4 md:grid-cols-2">
+                  <button
+                    className="rounded-2xl border border-slate-800 bg-slate-900 p-6 text-left transition hover:border-cyan-400/50"
+                    onClick={() => setSelectedPbq('siem')}
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="rounded-xl bg-cyan-400/15 p-2 text-cyan-300">
+                        <ShieldCheck size={22} />
+                      </div>
+                      <span className="rounded-full bg-cyan-400/10 px-2 py-0.5 text-xs font-medium text-cyan-200">
+                        Lab 01
+                      </span>
+                    </div>
+                    <h3 className="mt-4 text-lg font-semibold">
+                      Investigate a suspicious sign-in
+                    </h3>
+                    <p className="mt-2 text-sm text-slate-400">
+                      Review SIEM evidence, identify compromise indicators, and choose
+                      immediate response actions.
+                    </p>
+                  </button>
+
+                  <button
+                    className="rounded-2xl border border-slate-800 bg-slate-900 p-6 text-left transition hover:border-cyan-400/50"
+                    onClick={() => setSelectedPbq('vuln')}
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="rounded-xl bg-cyan-400/15 p-2 text-cyan-300">
+                        <ShieldCheck size={22} />
+                      </div>
+                      <span className="rounded-full bg-cyan-400/10 px-2 py-0.5 text-xs font-medium text-cyan-200">
+                        Lab 02
+                      </span>
+                    </div>
+                    <h3 className="mt-4 text-lg font-semibold">
+                      Prioritize vulnerability remediation
+                    </h3>
+                    <p className="mt-2 text-sm text-slate-400">
+                      Review scan findings, identify top priorities, flag false
+                      positives, and choose remediation actions.
+                    </p>
+                  </button>
+                </div>
+              </div>
+            )
           ) : showQuestionSession ? (
             sessionComplete ? (
               <section className="rounded-2xl border border-cyan-400/25 bg-slate-900 p-8 text-center">
@@ -459,9 +542,9 @@ function App() {
 
                 <article className="rounded-2xl border border-slate-800 bg-slate-900 p-5">
                   <p className="text-sm text-slate-400">PBQ labs available</p>
-                  <p className="mt-2 text-4xl font-bold">1 / 12</p>
+                  <p className="mt-2 text-4xl font-bold">2 / 12</p>
                   <p className="mt-2 text-sm text-amber-300">
-                    SIEM sign-in investigation
+                    SIEM sign-in · Vulnerability prioritization
                   </p>
                 </article>
               </div>
