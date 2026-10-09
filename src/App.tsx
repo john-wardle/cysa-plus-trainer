@@ -12,6 +12,7 @@ import {
   Target,
   XCircle,
 } from 'lucide-react'
+import SiemPbq from './components/SiemPbq'
 
 type Question = {
   id: number
@@ -172,7 +173,9 @@ function App() {
         </aside>
 
         <section className="space-y-8">
-          {activeMode === 'Practice' ? (
+          {activeMode === 'PBQ Labs' ? (
+  <SiemPbq />
+) : activeMode === 'Practice' ? (
             <>
               <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
                 <div>
