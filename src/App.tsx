@@ -21,6 +21,16 @@ type StudyStats = {
   questionsCorrect: number
 }
 
+type SessionResult = {
+  id: string
+  domain: string
+  prompt: string
+  selected: string[]
+  correct: string[]
+  choices: { id: string; text: string }[]
+  explanation: string
+}
+
 const defaultStudyStats: StudyStats = {
   questionsAnswered: 0,
   questionsCorrect: 0,
@@ -62,6 +72,7 @@ function App() {
   const [selected, setSelected] = useState<string[]>([])
   const [submitted, setSubmitted] = useState(false)
   const [sessionCorrect, setSessionCorrect] = useState(0)
+  const [sessionResults, setSessionResults] = useState<SessionResult[]>([])
   const [lastQuestionReached, setLastQuestionReached] = useState(false)
   const [secondsRemaining, setSecondsRemaining] = useState(20 * 60)
   const [studyStats, setStudyStats] = useState<StudyStats>(loadStudyStats)
@@ -117,6 +128,7 @@ function App() {
     setSelected([])
     setSubmitted(false)
     setSessionCorrect(0)
+    setSessionResults([])
     setLastQuestionReached(false)
     setSecondsRemaining(20 * 60)
   }
@@ -154,6 +166,19 @@ function App() {
     }))
 
     if (isCorrect) setSessionCorrect((score) => score + 1)
+
+    setSessionResults((results) => [
+      ...results,
+      {
+        id: question.id,
+        domain: question.domain,
+        prompt: question.prompt,
+        selected,
+        correct: question.correct,
+        choices: question.choices,
+        explanation: question.explanation,
+      },
+    ])
   }
 
   function nextQuestion() {
@@ -192,6 +217,18 @@ function App() {
     activeMode === 'Practice' || activeMode === 'Mock Exam'
 
   const domainOptions = ['All Domains', ...cysaDomains.map((domain) => domain.name)]
+
+  const sessionPercent =
+    sessionResults.length > 0
+      ? Math.round((sessionCorrect / sessionResults.length) * 100)
+      : 0
+
+  const missedQuestions = sessionResults.filter((result) => {
+    const resultCorrect =
+      result.selected.length === result.correct.length &&
+      result.selected.every((id) => result.correct.includes(id))
+    return !resultCorrect
+  })
 
   return (
     <main className="min-h-screen bg-slate-950 text-slate-100">
@@ -315,20 +352,124 @@ function App() {
             )
           ) : showQuestionSession ? (
             sessionComplete ? (
-              <section className="rounded-2xl border border-cyan-400/25 bg-slate-900 p-8 text-center">
-                <CheckCircle2 className="mx-auto text-cyan-300" size={44} />
-                <p className="mt-5 text-sm font-semibold text-cyan-300">
-                  {isMockExam ? 'MOCK EXAM COMPLETE' : 'PRACTICE SESSION COMPLETE'}
-                </p>
-                <h2 className="mt-2 text-3xl font-bold">
-                  {sessionCorrect} / {cysaQuestions.length} correct
-                </h2>
-                <p className="mx-auto mt-3 max-w-xl text-slate-400">
-                  Review the explanations for missed questions, then retake the
-                  session. The mock exam draws from the full question bank to
-                  simulate the complete exam experience.
-                </p>
-                <div className="mt-6 flex justify-center gap-3">
+              <div className="space-y-6">
+                <section className="rounded-2xl border border-cyan-400/25 bg-slate-900 p-8 text-center">
+                  <CheckCircle2 className="mx-auto text-cyan-300" size={44} />
+                  <p className="mt-5 text-sm font-semibold text-cyan-300">
+                    {isMockExam ? 'MOCK EXAM COMPLETE' : 'PRACTICE SESSION COMPLETE'}
+                  </p>
+                  <h2 className="mt-2 text-4xl font-bold">{sessionPercent}%</h2>
+                  <p className="mt-2 text-slate-400">
+                    {sessionCorrect} / {sessionResults.length} correct
+                  </p>
+                </section>
+
+                <section className="rounded-2xl border border-slate-800 bg-slate-900 p-6">
+                  <h3 className="text-lg font-semibold">Domain breakdown</h3>
+                  <div className="mt-5 space-y-4">
+                    {cysaDomains.map((domain) => {
+                      const domainResults = sessionResults.filter(
+                        (r) => r.domain === domain.name,
+                      )
+                      const domainCorrect = domainResults.filter((r) => {
+                        const rCorrect =
+                          r.selected.length === r.correct.length &&
+                          r.selected.every((id) => r.correct.includes(id))
+                        return rCorrect
+                      }).length
+                      const domainPercent =
+                        domainResults.length > 0
+                          ? Math.round(
+                              (domainCorrect / domainResults.length) * 100,
+                            )
+                          : 0
+
+                      return (
+                        <div key={domain.name}>
+                          <div className="mb-2 flex justify-between text-sm">
+                            <span className="font-medium">{domain.name}</span>
+                            <span className="text-slate-400">
+                              {domainCorrect}/{domainResults.length} · {domainPercent}%
+                            </span>
+                          </div>
+                          <div className="h-2 overflow-hidden rounded-full bg-slate-800">
+                            <div
+                              className={`h-full rounded-full ${
+                                domainPercent >= 70 ? 'bg-emerald-400' : domainPercent >= 50 ? 'bg-amber-400' : 'bg-rose-400'
+                              }`}
+                              style={{ width: `${domainPercent}%` }}
+                            />
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </section>
+
+                {missedQuestions.length > 0 && (
+                  <section className="rounded-2xl border border-slate-800 bg-slate-900 p-6">
+                    <h3 className="text-lg font-semibold">
+                      Review missed questions ({missedQuestions.length})
+                    </h3>
+                    <div className="mt-5 space-y-4">
+                      {missedQuestions.map((result) => {
+                        const resultIncorrectSelected = result.selected.filter(
+                          (id) => !result.correct.includes(id),
+                        )
+                        const resultMissedCorrect = result.correct.filter(
+                          (id) => !result.selected.includes(id),
+                        )
+
+                        return (
+                          <article
+                            className="rounded-xl border border-slate-700 bg-slate-950 p-5"
+                            key={result.id}
+                          >
+                            <div className="flex flex-wrap gap-2 text-xs">
+                              <span className="rounded-full bg-cyan-400/10 px-2 py-1 text-cyan-200">
+                                {result.domain}
+                              </span>
+                            </div>
+                            <p className="mt-3 font-medium leading-7">{result.prompt}</p>
+
+                            <div className="mt-3 space-y-1 text-sm">
+                              {resultMissedCorrect.length > 0 && (
+                                <p className="text-emerald-300">
+                                  <span className="font-medium">Correct answer: </span>
+                                  {resultMissedCorrect
+                                    .map(
+                                      (id) =>
+                                        result.choices.find((c) => c.id === id)?.text ??
+                                        '',
+                                    )
+                                    .join(' · ')}
+                                </p>
+                              )}
+                              {resultIncorrectSelected.length > 0 && (
+                                <p className="text-rose-300">
+                                  <span className="font-medium">You selected: </span>
+                                  {resultIncorrectSelected
+                                    .map(
+                                      (id) =>
+                                        result.choices.find((c) => c.id === id)?.text ??
+                                        '',
+                                    )
+                                    .join(' · ')}
+                                </p>
+                              )}
+                            </div>
+
+                            <p className="mt-3 border-t border-slate-800 pt-3 text-sm leading-6 text-slate-400">
+                              {result.explanation}
+                            </p>
+                          </article>
+                        )
+                      })}
+                    </div>
+                  </section>
+                )}
+
+                <div className="flex justify-center gap-3">
                   <button
                     className="rounded-lg bg-cyan-400 px-5 py-3 font-semibold text-slate-950 transition hover:bg-cyan-300"
                     onClick={() =>
@@ -344,7 +485,7 @@ function App() {
                     Return to dashboard
                   </button>
                 </div>
-              </section>
+              </div>
             ) : (
               <>
                 <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
