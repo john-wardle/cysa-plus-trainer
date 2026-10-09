@@ -8,8 +8,10 @@ import {
   CircleHelp,
   Clock3,
   Play,
+  RotateCcw,
   ShieldCheck,
   Target,
+  Trash2,
   XCircle,
 } from 'lucide-react'
 import SiemPbq from './components/SiemPbq'
@@ -76,6 +78,7 @@ function App() {
   const [lastQuestionReached, setLastQuestionReached] = useState(false)
   const [secondsRemaining, setSecondsRemaining] = useState(20 * 60)
   const [studyStats, setStudyStats] = useState<StudyStats>(loadStudyStats)
+  const [confirmReset, setConfirmReset] = useState(false)
 
   const isMockExam = activeMode === 'Mock Exam'
   const sessionComplete = lastQuestionReached || (isMockExam && secondsRemaining <= 0)
@@ -203,6 +206,12 @@ function App() {
     }
 
     setActiveMode(label)
+  }
+
+  function resetProgress() {
+    localStorage.removeItem('cysa-study-stats')
+    setStudyStats(defaultStudyStats)
+    setConfirmReset(false)
   }
 
   const navigation = [
@@ -671,6 +680,84 @@ function App() {
                 </article>
               </>
             )
+          ) : activeMode === 'Progress' ? (
+            <div className="space-y-6">
+              <div>
+                <p className="mb-2 text-sm font-medium text-cyan-300">PROGRESS</p>
+                <h2 className="text-3xl font-bold tracking-tight">
+                  Your saved study data.
+                </h2>
+                <p className="mt-2 max-w-2xl text-slate-400">
+                  All progress is stored locally in your browser. No account or server
+                  is required.
+                </p>
+              </div>
+
+              <div className="grid gap-4 md:grid-cols-3">
+                <article className="rounded-2xl border border-cyan-400/20 bg-cyan-400/10 p-5">
+                  <p className="text-sm text-cyan-100">Overall readiness</p>
+                  <p className="mt-2 text-4xl font-bold">{readiness}%</p>
+                  <p className="mt-2 text-sm text-slate-300">
+                    Based on saved question results
+                  </p>
+                </article>
+
+                <article className="rounded-2xl border border-slate-800 bg-slate-900 p-5">
+                  <p className="text-sm text-slate-400">Questions answered</p>
+                  <p className="mt-2 text-4xl font-bold">
+                    {studyStats.questionsAnswered}
+                  </p>
+                  <p className="mt-2 text-sm text-slate-400">
+                    {studyStats.questionsCorrect} correct
+                  </p>
+                </article>
+
+                <article className="rounded-2xl border border-slate-800 bg-slate-900 p-5">
+                  <p className="text-sm text-slate-400">Question bank size</p>
+                  <p className="mt-2 text-4xl font-bold">
+                    {allCysaQuestions.length}
+                  </p>
+                  <p className="mt-2 text-sm text-slate-400">
+                    Across four CS0-003 domains
+                  </p>
+                </article>
+              </div>
+
+              <section className="rounded-2xl border border-slate-800 bg-slate-900 p-6">
+                <h3 className="text-lg font-semibold">Reset progress</h3>
+                <p className="mt-2 text-sm text-slate-400">
+                  Clear all saved question results and reset your readiness score. This
+                  action cannot be undone.
+                </p>
+                <div className="mt-4">
+                  {confirmReset ? (
+                    <div className="flex items-center gap-3">
+                      <button
+                        className="inline-flex items-center gap-2 rounded-lg bg-rose-500 px-5 py-3 font-semibold text-white transition hover:bg-rose-400"
+                        onClick={resetProgress}
+                      >
+                        <Trash2 size={18} />
+                        Yes, reset everything
+                      </button>
+                      <button
+                        className="rounded-lg border border-slate-600 px-5 py-3 font-semibold transition hover:border-slate-400"
+                        onClick={() => setConfirmReset(false)}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      className="inline-flex items-center gap-2 rounded-lg border border-rose-400/50 px-5 py-3 font-semibold text-rose-300 transition hover:bg-rose-400/10"
+                      onClick={() => setConfirmReset(true)}
+                    >
+                      <RotateCcw size={18} />
+                      Reset progress
+                    </button>
+                  )}
+                </div>
+              </section>
+            </div>
           ) : (
             <>
               <div>
