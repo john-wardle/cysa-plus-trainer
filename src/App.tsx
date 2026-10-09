@@ -49,22 +49,33 @@ function formatTime(totalSeconds: number) {
 }
 
 function App() {
-  const cysaQuestions = questionBank.filter(
+  const allCysaQuestions = questionBank.filter(
     (question) =>
       question.certification === 'CySA+' && question.examVersion === 'CS0-003',
   )
 
   const [activeMode, setActiveMode] = useState('Dashboard')
+  const [selectedDomain, setSelectedDomain] = useState('All Domains')
   const [questionIndex, setQuestionIndex] = useState(0)
   const [selected, setSelected] = useState<string[]>([])
   const [submitted, setSubmitted] = useState(false)
   const [sessionCorrect, setSessionCorrect] = useState(0)
-  const [sessionComplete, setSessionComplete] = useState(false)
+  const [lastQuestionReached, setLastQuestionReached] = useState(false)
   const [secondsRemaining, setSecondsRemaining] = useState(20 * 60)
   const [studyStats, setStudyStats] = useState<StudyStats>(loadStudyStats)
 
-  const question = cysaQuestions[questionIndex]
   const isMockExam = activeMode === 'Mock Exam'
+  const sessionComplete = lastQuestionReached || (isMockExam && secondsRemaining <= 0)
+
+  // Practice mode drills a single domain; the mock exam always uses the full bank.
+  const cysaQuestions = isMockExam
+    ? allCysaQuestions
+    : allCysaQuestions.filter(
+        (question) =>
+          selectedDomain === 'All Domains' || question.domain === selectedDomain,
+      )
+
+  const question = cysaQuestions[questionIndex]
 
   const readiness =
     studyStats.questionsAnswered === 0
@@ -82,19 +93,14 @@ function App() {
   }, [studyStats])
 
   useEffect(() => {
-    if (!isMockExam || sessionComplete) return
-
-    if (secondsRemaining <= 0) {
-      setSessionComplete(true)
-      return
-    }
+    if (!isMockExam || secondsRemaining <= 0) return
 
     const timer = window.setInterval(() => {
       setSecondsRemaining((seconds) => seconds - 1)
     }, 1000)
 
     return () => window.clearInterval(timer)
-  }, [isMockExam, secondsRemaining, sessionComplete])
+  }, [isMockExam, secondsRemaining])
 
   function startSession(mode: 'Practice' | 'Mock Exam') {
     setActiveMode(mode)
@@ -102,8 +108,15 @@ function App() {
     setSelected([])
     setSubmitted(false)
     setSessionCorrect(0)
-    setSessionComplete(false)
+    setLastQuestionReached(false)
     setSecondsRemaining(20 * 60)
+  }
+
+  function selectDomain(domain: string) {
+    setSelectedDomain(domain)
+    setQuestionIndex(0)
+    setSelected([])
+    setSubmitted(false)
   }
 
   function chooseAnswer(answerId: string) {
@@ -136,7 +149,7 @@ function App() {
 
   function nextQuestion() {
     if (questionIndex === cysaQuestions.length - 1) {
-      setSessionComplete(true)
+      setLastQuestionReached(true)
       return
     }
 
@@ -164,6 +177,8 @@ function App() {
 
   const showQuestionSession =
     activeMode === 'Practice' || activeMode === 'Mock Exam'
+
+  const domainOptions = ['All Domains', ...cysaDomains.map((domain) => domain.name)]
 
   return (
     <main className="min-h-screen bg-slate-950 text-slate-100">
@@ -220,8 +235,8 @@ function App() {
                 </h2>
                 <p className="mx-auto mt-3 max-w-xl text-slate-400">
                   Review the explanations for missed questions, then retake the
-                  session. The mock exam is currently a short eight-question build
-                  test; the complete version will use the full exam blueprint.
+                  session. The mock exam draws from the full question bank to
+                  simulate the complete exam experience.
                 </p>
                 <div className="mt-6 flex justify-center gap-3">
                   <button
@@ -274,6 +289,27 @@ function App() {
                     </div>
                   </div>
                 </div>
+
+                {!isMockExam && (
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="text-xs font-medium text-slate-400">
+                      Drill domain:
+                    </span>
+                    {domainOptions.map((domain) => (
+                      <button
+                        className={`rounded-full border px-3 py-1.5 text-xs font-medium transition ${
+                          selectedDomain === domain
+                            ? 'border-cyan-400 bg-cyan-400 text-slate-950'
+                            : 'border-slate-700 text-slate-300 hover:border-cyan-400/60 hover:text-cyan-200'
+                        }`}
+                        key={domain}
+                        onClick={() => selectDomain(domain)}
+                      >
+                        {domain}
+                      </button>
+                    ))}
+                  </div>
+                )}
 
                 <article className="rounded-2xl border border-slate-800 bg-slate-900 p-6 sm:p-8">
                   <div className="flex gap-3">
@@ -417,7 +453,7 @@ function App() {
                     {studyStats.questionsAnswered}
                   </p>
                   <p className="mt-2 text-sm text-slate-400">
-                    Starter bank: {cysaQuestions.length} questions
+                    Question bank: {allCysaQuestions.length} questions
                   </p>
                 </article>
 
@@ -435,7 +471,8 @@ function App() {
                   <BookOpen className="text-cyan-300" size={26} />
                   <h3 className="mt-4 text-lg font-semibold">Practice by scenario</h3>
                   <p className="mt-2 text-slate-400">
-                    Learn through immediate feedback and explanations.
+                    Learn through immediate feedback and explanations. Drill a single
+                    domain or mix all four.
                   </p>
                   <button
                     className="mt-5 inline-flex items-center gap-2 rounded-lg bg-cyan-400 px-5 py-3 font-semibold text-slate-950 transition hover:bg-cyan-300"
@@ -450,7 +487,7 @@ function App() {
                   <Clock3 className="text-amber-300" size={26} />
                   <h3 className="mt-4 text-lg font-semibold">Timed mock exam</h3>
                   <p className="mt-2 text-slate-400">
-                    An eight-question timed build test for the mock-exam workflow.
+                    A full-bank timed build test for the mock-exam workflow.
                   </p>
                   <button
                     className="mt-5 inline-flex items-center gap-2 rounded-lg border border-amber-300/60 px-5 py-3 font-semibold text-amber-200 transition hover:bg-amber-300 hover:text-slate-950"
@@ -466,20 +503,28 @@ function App() {
                 <h3 className="text-lg font-semibold">CS0-003 objective weighting</h3>
 
                 <div className="mt-6 space-y-5">
-                  {cysaDomains.map((domain) => (
-                    <div key={domain.name}>
-                      <div className="mb-2 flex justify-between text-sm">
-                        <span className="font-medium">{domain.name}</span>
-                        <span className="text-slate-400">{domain.weight}%</span>
+                  {cysaDomains.map((domain) => {
+                    const questionCount = allCysaQuestions.filter(
+                      (question) => question.domain === domain.name,
+                    ).length
+
+                    return (
+                      <div key={domain.name}>
+                        <div className="mb-2 flex justify-between text-sm">
+                          <span className="font-medium">{domain.name}</span>
+                          <span className="text-slate-400">
+                            {domain.weight}% · {questionCount} questions
+                          </span>
+                        </div>
+                        <div className="h-2 overflow-hidden rounded-full bg-slate-800">
+                          <div
+                            className="h-full rounded-full bg-cyan-400"
+                            style={{ width: `${domain.weight}%` }}
+                          />
+                        </div>
                       </div>
-                      <div className="h-2 overflow-hidden rounded-full bg-slate-800">
-                        <div
-                          className="h-full rounded-full bg-cyan-400"
-                          style={{ width: `${domain.weight}%` }}
-                        />
-                      </div>
-                    </div>
-                  ))}
+                    )
+                  })}
                 </div>
               </section>
             </>
