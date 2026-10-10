@@ -341,13 +341,13 @@ function App() {
                     Hands-on investigation practice.
                   </h2>
                   <p className="mt-2 max-w-2xl text-slate-400">
-                    {pbqScenarios.length} performance-based labs that simulate real analyst workflows.
+                    {pbqScenarios.filter((s) => s.certification === selectedCertification).length} performance-based labs that simulate real analyst workflows.
                     Select a lab to begin.
                   </p>
                 </div>
 
                 <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                  {pbqScenarios.map((scenario, index) => (
+                  {pbqScenarios.filter((s) => s.certification === selectedCertification).map((scenario, index) => (
                     <button
                       className="rounded-2xl border border-slate-800 bg-slate-900 p-5 text-left transition hover:border-cyan-400/50"
                       key={scenario.id}
@@ -808,9 +808,11 @@ function App() {
 
                 <article className="rounded-2xl border border-slate-800 bg-slate-900 p-5">
                   <p className="text-sm text-slate-400">PBQ labs available</p>
-                  <p className="mt-2 text-4xl font-bold">{pbqScenarios.length}</p>
+                  <p className="mt-2 text-4xl font-bold">
+                    {pbqScenarios.filter((s) => s.certification === selectedCertification).length}
+                  </p>
                   <p className="mt-2 text-sm text-amber-300">
-                    Interactive labs available
+                    {selectedCertification} interactive labs
                   </p>
                 </article>
               </div>

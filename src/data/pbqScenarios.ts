@@ -1,9 +1,10 @@
 import type { PbqScenario } from '../components/PbqRunner'
 
-// Security Operations PBQ scenarios
+// Security Operations PBQ scenarios (CySA+)
 export const pbqScenarios: PbqScenario[] = [
   {
     id: 'so-01',
+    certification: 'CySA+',
     title: 'Analyze suspicious network traffic',
     description:
       'A network sensor has flagged unusual traffic patterns. Review the traffic analysis data, identify indicators of compromise, and determine the appropriate response actions.',
@@ -41,6 +42,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'so-02',
+    certification: 'CySA+',
     title: 'Investigate a phishing campaign',
     description:
       'Multiple employees have reported suspicious emails. Review the email headers and content, identify phishing indicators, and determine the scope of the campaign.',
@@ -78,6 +80,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'so-03',
+    certification: 'CySA+',
     title: 'Triage a malware detection',
     description:
       'An EDR alert has flagged suspicious PowerShell activity. Review the endpoint telemetry, assess the threat level, and recommend containment actions.',
@@ -115,6 +118,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'so-04',
+    certification: 'CySA+',
     title: 'Analyze firewall rule violations',
     description:
       'A firewall audit has identified rule violations and misconfigurations. Review the rule base, identify security gaps, and recommend fixes.',
@@ -152,6 +156,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'so-05',
+    certification: 'CySA+',
     title: 'Investigate anomalous user behavior',
     description:
       'A UEBA system has flagged unusual behavior for a user account. Review the authentication and access logs, determine if the account is compromised, and recommend actions.',
@@ -189,6 +194,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'vm-01',
+    certification: 'CySA+',
     title: 'Prioritize scan findings for remediation',
     description:
       'A weekly vulnerability scan has returned findings across multiple asset groups. Review the results, prioritize remediation, and select appropriate compensating controls.',
@@ -226,6 +232,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'vm-02',
+    certification: 'CySA+',
     title: 'Assess cloud security posture',
     description:
       'A cloud security posture assessment has identified misconfigurations across multiple services. Review the findings, identify critical gaps, and recommend fixes.',
@@ -263,6 +270,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'vm-03',
+    certification: 'CySA+',
     title: 'Evaluate patch management effectiveness',
     description:
       'A patch compliance review has been conducted across the environment. Review the metrics, identify gaps, and recommend process improvements.',
@@ -300,6 +308,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'ir-01',
+    certification: 'CySA+',
     title: 'Respond to a ransomware incident',
     description:
       'Ransomware has been detected on multiple systems. Review the incident details, determine the containment strategy, and select the appropriate response actions.',
@@ -337,6 +346,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'ir-02',
+    certification: 'CySA+',
     title: 'Handle a data breach notification',
     description:
       'A data breach involving customer PII has been confirmed. Review the breach details, identify notification obligations, and select the appropriate response actions.',
@@ -374,6 +384,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'ir-03',
+    certification: 'CySA+',
     title: 'Investigate a compromised web server',
     description:
       'A public web server is suspected of being compromised. Review the server logs and artifacts, determine the attack vector, and select remediation steps.',
@@ -411,6 +422,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'rc-01',
+    certification: 'CySA+',
     title: 'Draft an executive incident summary',
     description:
       'A significant security incident has occurred. Review the incident details and select the most appropriate content for an executive summary report.',
@@ -448,6 +460,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'rc-02',
+    certification: 'CySA+',
     title: 'Prepare a breach notification letter',
     description:
       'A breach affecting customer data requires notification. Review the draft letter and select the content that meets regulatory and best-practice requirements.',
@@ -485,6 +498,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'rc-03',
+    certification: 'CySA+',
     title: 'Present security metrics to leadership',
     description:
       'You need to present quarterly security metrics to the executive team. Review the available metrics and select the ones that best demonstrate security program effectiveness.',
@@ -522,6 +536,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'so-06',
+    certification: 'CySA+',
     title: 'Investigate a compromised IoT device',
     description:
       'An IoT camera on the corporate network is communicating with a known C2 server. Review the network and device logs, assess the compromise, and determine response actions.',
@@ -559,6 +574,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'so-07',
+    certification: 'CySA+',
     title: 'Analyze a potential data exfiltration',
     description:
       'A DLP alert has flagged unusual outbound data transfers. Review the network and DLP logs, determine if data exfiltration is occurring, and select response actions.',
@@ -596,6 +612,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'so-08',
+    certification: 'CySA+',
     title: 'Investigate suspicious DNS activity',
     description:
       'DNS query logs show unusual patterns from an internal host. Review the DNS data, identify the type of DNS abuse, and determine response actions.',
@@ -633,6 +650,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'so-09',
+    certification: 'CySA+',
     title: 'Assess a third-party vendor risk',
     description:
       'A third-party vendor requests access to internal systems. Review the vendor security assessment, identify risks, and recommend access controls.',
@@ -670,6 +688,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'so-10',
+    certification: 'CySA+',
     title: 'Investigate a compromised service account',
     description:
       'A service account is authenticating from unexpected locations. Review the authentication logs, determine if the account is compromised, and select response actions.',
@@ -707,6 +726,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'so-11',
+    certification: 'CySA+',
     title: 'Analyze a brute-force attack pattern',
     description:
       'Authentication logs show a high volume of failed login attempts. Review the attack pattern, determine the attack type, and select defensive actions.',
@@ -744,6 +764,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'so-12',
+    certification: 'CySA+',
     title: 'Investigate suspicious email forwarding rules',
     description:
       'A user reports unauthorized access to their email. Review the mailbox configuration, identify signs of compromise, and determine response actions.',
@@ -781,6 +802,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'so-13',
+    certification: 'CySA+',
     title: 'Assess network segmentation effectiveness',
     description:
       'A network architecture review has been conducted to assess segmentation. Review the findings, identify segmentation gaps, and recommend improvements.',
@@ -818,6 +840,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'so-14',
+    certification: 'CySA+',
     title: 'Investigate a potential insider threat',
     description:
       'A user behavior analytics alert has flagged an employee for unusual activity. Review the behavioral indicators, assess the threat, and determine response actions.',
@@ -855,6 +878,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'so-15',
+    certification: 'CySA+',
     title: 'Analyze a cross-site scripting attack',
     description:
       'A web application is under attack using cross-site scripting. Review the attack indicators, identify the XSS type, and select remediation actions.',
@@ -892,6 +916,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'so-16',
+    certification: 'CySA+',
     title: 'Investigate a DDoS attack in progress',
     description:
       'The company website is experiencing a distributed denial-of-service attack. Review the traffic analysis, identify the attack type, and select mitigation actions.',
@@ -929,6 +954,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'so-17',
+    certification: 'CySA+',
     title: 'Assess cloud identity and access management',
     description:
       'A cloud IAM audit has identified policy violations and excessive permissions. Review the findings, identify risks, and recommend fixes.',
@@ -966,6 +992,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'so-18',
+    certification: 'CySA+',
     title: 'Investigate a compromised build pipeline',
     description:
       'A CI/CD pipeline is suspected of being compromised. Review the pipeline logs, identify indicators of tampering, and determine response actions.',
@@ -1003,6 +1030,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'so-19',
+    certification: 'CySA+',
     title: 'Analyze a password spray attack',
     description:
       'Authentication logs show a pattern consistent with password spraying. Review the attack characteristics, confirm the attack type, and select defensive actions.',
@@ -1040,6 +1068,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'so-20',
+    certification: 'CySA+',
     title: 'Investigate a compromised VPN gateway',
     description:
       'A VPN gateway is suspected of being exploited. Review the VPN logs, identify signs of unauthorized access, and determine response actions.',
@@ -1077,6 +1106,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'vm-04',
+    certification: 'CySA+',
     title: 'Prioritize cloud container vulnerabilities',
     description:
       'A container image scan has identified vulnerabilities across multiple images. Review the findings, prioritize remediation, and select appropriate controls.',
@@ -1114,6 +1144,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'vm-05',
+    certification: 'CySA+',
     title: 'Assess endpoint security coverage',
     description:
       'An endpoint security audit has been conducted across the organization. Review the coverage metrics, identify gaps, and recommend improvements.',
@@ -1151,6 +1182,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'vm-06',
+    certification: 'CySA+',
     title: 'Evaluate data loss prevention effectiveness',
     description:
       'A DLP program review has been conducted. Review the DLP metrics and findings, identify gaps, and recommend improvements.',
@@ -1188,6 +1220,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'vm-07',
+    certification: 'CySA+',
     title: 'Assess email security controls',
     description:
       'An email security audit has been conducted. Review the findings, identify gaps in email security controls, and recommend fixes.',
@@ -1225,6 +1258,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'vm-08',
+    certification: 'CySA+',
     title: 'Evaluate wireless network security',
     description:
       'A wireless security assessment has been conducted. Review the findings, identify vulnerabilities, and recommend security improvements.',
@@ -1262,6 +1296,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'vm-09',
+    certification: 'CySA+',
     title: 'Assess database security controls',
     description:
       'A database security audit has been conducted. Review the findings, identify vulnerabilities, and recommend security improvements.',
@@ -1299,6 +1334,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'vm-10',
+    certification: 'CySA+',
     title: 'Evaluate backup and recovery security',
     description:
       'A backup security assessment has been conducted. Review the findings, identify vulnerabilities, and recommend improvements to backup protection.',
@@ -1336,6 +1372,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'vm-11',
+    certification: 'CySA+',
     title: 'Assess physical security controls',
     description:
       'A physical security assessment of the data center has been conducted. Review the findings, identify vulnerabilities, and recommend improvements.',
@@ -1373,6 +1410,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'vm-12',
+    certification: 'CySA+',
     title: 'Evaluate network access control effectiveness',
     description:
       'A network access control assessment has been conducted. Review the findings, identify gaps, and recommend improvements.',
@@ -1410,6 +1448,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'vm-13',
+    certification: 'CySA+',
     title: 'Assess security awareness program effectiveness',
     description:
       'A security awareness program review has been conducted. Review the metrics and findings, identify gaps, and recommend improvements.',
@@ -1447,6 +1486,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'vm-14',
+    certification: 'CySA+',
     title: 'Evaluate incident response readiness',
     description:
       'An incident response readiness assessment has been conducted. Review the findings, identify gaps, and recommend improvements.',
@@ -1484,6 +1524,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'vm-15',
+    certification: 'CySA+',
     title: 'Assess vendor management security',
     description:
       'A vendor management security review has been conducted. Review the findings, identify risks, and recommend improvements.',
@@ -1521,6 +1562,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'vm-16',
+    certification: 'CySA+',
     title: 'Evaluate encryption key management',
     description:
       'An encryption key management assessment has been conducted. Review the findings, identify vulnerabilities, and recommend improvements.',
@@ -1558,6 +1600,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'vm-17',
+    certification: 'CySA+',
     title: 'Assess API security controls',
     description:
       'An API security assessment has been conducted. Review the findings, identify vulnerabilities, and recommend security improvements.',
@@ -1595,6 +1638,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'vm-18',
+    certification: 'CySA+',
     title: 'Evaluate server hardening compliance',
     description:
       'A server hardening compliance assessment has been conducted against CIS benchmarks. Review the findings, identify gaps, and recommend remediation.',
@@ -1632,6 +1676,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'vm-19',
+    certification: 'CySA+',
     title: 'Assess mobile device security',
     description:
       'A mobile device security assessment has been conducted. Review the findings, identify vulnerabilities, and recommend improvements.',
@@ -1669,6 +1714,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'vm-20',
+    certification: 'CySA+',
     title: 'Evaluate disaster recovery security',
     description:
       'A disaster recovery security assessment has been conducted. Review the findings, identify vulnerabilities, and recommend improvements.',
@@ -1706,6 +1752,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'ir-04',
+    certification: 'CySA+',
     title: 'Respond to a compromised domain controller',
     description:
       'A domain controller is suspected of being compromised. Review the indicators, determine the scope, and select the appropriate response actions.',
@@ -1743,6 +1790,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'ir-05',
+    certification: 'CySA+',
     title: 'Handle a compromised third-party vendor',
     description:
       'A critical third-party vendor has announced a breach affecting your organization. Review the situation, determine your exposure, and select response actions.',
@@ -1780,6 +1828,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'ir-06',
+    certification: 'CySA+',
     title: 'Investigate a compromised email account with BEC',
     description:
       'A business email compromise has been detected. Review the email and financial indicators, determine the scope, and select response actions.',
@@ -1817,6 +1866,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'ir-07',
+    certification: 'CySA+',
     title: 'Respond to a cloud account compromise',
     description:
       'A cloud administrator account is confirmed compromised. Review the cloud logs, determine the attacker actions, and select response actions.',
@@ -1854,6 +1904,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'ir-08',
+    certification: 'CySA+',
     title: 'Handle a website defacement',
     description:
       'The corporate website has been defaced by attackers. Review the incident details, determine the attack vector, and select response actions.',
@@ -1891,6 +1942,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'ir-09',
+    certification: 'CySA+',
     title: 'Investigate a cryptomining infection',
     description:
       'Multiple servers are showing high CPU utilization. Review the indicators, determine if cryptomining is occurring, and select response actions.',
@@ -1928,6 +1980,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'ir-10',
+    certification: 'CySA+',
     title: 'Respond to a social engineering incident',
     description:
       'An employee has fallen victim to a vishing attack and provided credentials. Review the incident details, assess the exposure, and select response actions.',
@@ -1965,6 +2018,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'rc-04',
+    certification: 'CySA+',
     title: 'Create a vulnerability management report',
     description:
       'You need to create a quarterly vulnerability management report for IT leadership. Review the available data, select the most relevant metrics, and choose appropriate presentation approaches.',
@@ -2002,6 +2056,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'rc-05',
+    certification: 'CySA+',
     title: 'Draft a security policy exception request',
     description:
       'A business unit needs to run a legacy application that cannot meet current security standards. Review the exception request process and select the appropriate steps.',
@@ -2039,6 +2094,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'rc-06',
+    certification: 'CySA+',
     title: 'Prepare a security awareness presentation',
     description:
       'You need to present security awareness topics to a general employee audience. Review the presentation options and select the most effective approaches.',
@@ -2076,6 +2132,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'rc-07',
+    certification: 'CySA+',
     title: 'Write a security incident press release',
     description:
       'A significant security incident requires a public statement. Review the draft press release and select the content that meets best practices for public disclosure.',
@@ -2113,6 +2170,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'rc-08',
+    certification: 'CySA+',
     title: 'Develop a security metrics dashboard',
     description:
       'You are designing a security metrics dashboard for ongoing monitoring. Review the requirements and select the metrics and design approaches that provide the most value.',
@@ -2150,6 +2208,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'rc-09',
+    certification: 'CySA+',
     title: 'Prepare an incident escalation briefing',
     description:
       'A security incident needs to be escalated to senior leadership. Review the escalation requirements and select the content appropriate for this briefing.',
@@ -2187,6 +2246,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'rc-10',
+    certification: 'CySA+',
     title: 'Create a vendor security assessment report',
     description:
       'A security assessment of a critical vendor has been completed. Review the findings and select the content appropriate for the final report to stakeholders.',
@@ -2224,6 +2284,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'rc-11',
+    certification: 'CySA+',
     title: 'Draft a security incident lessons learned document',
     description:
       'A significant incident has been resolved. Review the lessons learned process and select the content that should be included in the final document.',
@@ -2261,6 +2322,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'rc-12',
+    certification: 'CySA+',
     title: 'Prepare a security program status update',
     description:
       'You need to provide a quarterly security program status update to executive leadership. Review the available information and select the most effective content and approach.',
@@ -2298,6 +2360,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'rc-13',
+    certification: 'CySA+',
     title: 'Write an incident response executive summary',
     description:
       'A significant security incident requires an executive summary for the board of directors. Review the incident details and select the content most appropriate for this audience.',
@@ -2335,6 +2398,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'rc-14',
+    certification: 'CySA+',
     title: 'Create a security awareness newsletter',
     description:
       'You are creating a monthly security awareness newsletter for all employees. Review the content options and select the most effective topics and approaches.',
@@ -2372,6 +2436,7 @@ export const pbqScenarios: PbqScenario[] = [
   },
   {
     id: 'rc-15',
+    certification: 'CySA+',
     title: 'Prepare a security compliance report',
     description:
       'A compliance audit has been completed. Review the findings and select the content appropriate for a compliance report to auditors and regulators.',
@@ -2406,5 +2471,310 @@ export const pbqScenarios: PbqScenario[] = [
     passingScore: 8,
     summary:
       'Control results, gap analysis, evidence of operation, and risk acceptance belong in compliance reports. Policies, configurations, training records, and third-party audits provide strong evidence.',
+  },
+  // PenTest+ PBQ scenarios
+  {
+    id: 'pt-01',
+    certification: 'PenTest+',
+    title: 'Plan a penetration test engagement',
+    description:
+      'You are preparing for a penetration test of a client web application. Review the planning requirements, identify the critical documents, and select appropriate scoping actions.',
+    tasks: [
+      {
+        id: 'pt-01-t1',
+        title: 'Task 1: Identify required planning documents',
+        instruction: 'Select all documents that must be prepared before testing begins.',
+        items: [
+          { id: 'a', title: 'Rules of engagement', detail: 'Defines scope, timing, and acceptable testing actions.', correct: true },
+          { id: 'b', title: 'Written authorization', detail: 'Provides legal permission to conduct the test.', correct: true },
+          { id: 'c', title: 'Final test report', detail: 'Delivered after testing is complete.', correct: false },
+          { id: 'd', title: 'Remediation plan', detail: 'Created after findings are delivered.', correct: false },
+          { id: 'e', title: 'Statement of work', detail: 'Defines deliverables, timeline, and cost.', correct: true },
+          { id: 'f', title: 'Executive summary', detail: 'Part of the final report, not planning.', correct: false },
+        ],
+      },
+      {
+        id: 'pt-01-t2',
+        title: 'Task 2: Select scoping actions',
+        instruction: 'Choose the appropriate actions for defining test scope.',
+        items: [
+          { id: 'a', title: 'Identify target systems', detail: 'Determine which IPs, domains, and applications are in scope.', correct: true },
+          { id: 'b', title: 'Define excluded systems', detail: 'Document systems that must not be tested.', correct: true },
+          { id: 'c', title: 'Run vulnerability scans', detail: 'Conducted during the discovery phase, not planning.', correct: false },
+          { id: 'd', title: 'Exploit vulnerabilities', detail: 'Occurs during the attack phase, not planning.', correct: false },
+          { id: 'e', title: 'Set testing hours', detail: 'Define when active testing is permitted.', correct: true },
+          { id: 'f', title: 'Deliver final report', detail: 'Happens after all testing is complete.', correct: false },
+        ],
+      },
+    ],
+    passingScore: 6,
+    summary:
+      'Planning requires rules of engagement, written authorization, and a statement of work. Scoping defines targets, exclusions, and timing before any testing begins.',
+  },
+  {
+    id: 'pt-02',
+    certification: 'PenTest+',
+    title: 'Perform network discovery and enumeration',
+    description:
+      'You are in the discovery phase of a penetration test. Review the network scan results, identify live hosts and services, and determine the next enumeration steps.',
+    tasks: [
+      {
+        id: 'pt-02-t1',
+        title: 'Task 1: Identify live hosts from scan results',
+        instruction: 'Select all findings that indicate a live host.',
+        items: [
+          { id: 'a', title: 'Host responding to ICMP echo', detail: 'Ping reply received from 192.168.1.10.', correct: true },
+          { id: 'b', title: 'Port 80 open with HTTP service', detail: 'Web server responding on standard HTTP port.', correct: true },
+          { id: 'c', title: 'Port 443 filtered', detail: 'Firewall blocking HTTPS traffic.', correct: false },
+          { id: 'd', title: 'SSH banner retrieved', detail: 'SSH service identified on port 22.', correct: true },
+          { id: 'e', title: 'ARP request timeout', detail: 'No response to ARP query.', correct: false },
+          { id: 'f', title: 'DNS NXDOMAIN response', detail: 'Domain does not exist.', correct: false },
+        ],
+      },
+      {
+        id: 'pt-02-t2',
+        title: 'Task 2: Select next enumeration steps',
+        instruction: 'Choose the appropriate actions for deeper enumeration.',
+        items: [
+          { id: 'a', title: 'Banner grabbing', detail: 'Retrieve service version information.', correct: true },
+          { id: 'b', title: 'SNMP enumeration', detail: 'Query SNMP for device information.', correct: true },
+          { id: 'c', title: 'Exploit the web server', detail: 'Premature — enumerate first, exploit later.', correct: false },
+          { id: 'd', title: 'Deliver the final report', detail: 'Happens after all testing phases.', correct: false },
+          { id: 'e', title: 'OS fingerprinting', detail: 'Determine operating system versions.', correct: true },
+          { id: 'f', title: 'Delete scan results', detail: 'Evidence should be preserved.', correct: false },
+        ],
+      },
+    ],
+    passingScore: 6,
+    summary:
+      'Live hosts are identified by open ports and service responses. Next steps include banner grabbing, SNMP enumeration, and OS fingerprinting before exploitation.',
+  },
+  {
+    id: 'pt-03',
+    certification: 'PenTest+',
+    title: 'Prioritize vulnerabilities for exploitation',
+    description:
+      'A vulnerability scan has returned findings across multiple systems. Review the results, prioritize exploitation targets, and select appropriate attack techniques.',
+    tasks: [
+      {
+        id: 'pt-03-t1',
+        title: 'Task 1: Identify highest-priority targets',
+        instruction: 'Select all findings that should be exploited first.',
+        items: [
+          { id: 'a', title: 'Critical RCE on internet-facing server', detail: 'Remote code execution with CVSS 9.8 and public exploit available.', correct: true },
+          { id: 'b', title: 'High SQL injection on customer portal', detail: 'SQLi with potential access to customer database.', correct: true },
+          { id: 'c', title: 'Medium XSS on blog page', detail: 'Cross-site scripting on non-sensitive content.', correct: false },
+          { id: 'd', title: 'Critical privilege escalation on domain controller', detail: 'Local privilege escalation with domain admin impact.', correct: true },
+          { id: 'e', title: 'Low info disclosure on intranet', detail: 'Directory listing on internal-only page.', correct: false },
+          { id: 'f', title: 'Medium CSRF on settings page', detail: 'CSRF with limited impact on user preferences.', correct: false },
+        ],
+      },
+      {
+        id: 'pt-03-t2',
+        title: 'Task 2: Select appropriate attack techniques',
+        instruction: 'Choose the correct exploitation approach for each finding.',
+        items: [
+          { id: 'a', title: 'Metasploit for RCE', detail: 'Automated exploitation framework for known RCE vulnerabilities.', correct: true },
+          { id: 'b', title: 'SQLmap for SQL injection', detail: 'Automated SQL injection detection and exploitation tool.', correct: true },
+          { id: 'c', title: 'Brute force for XSS', detail: 'XSS does not require brute force — use payloads instead.', correct: false },
+          { id: 'd', title: 'Mimikatz for privilege escalation', detail: 'Extract credentials from memory for lateral movement.', correct: true },
+          { id: 'e', title: 'Port scan for CSRF', detail: 'CSRF is tested with crafted requests, not port scans.', correct: false },
+          { id: 'f', title: 'Phishing for info disclosure', detail: 'Info disclosure is tested by browsing, not phishing.', correct: false },
+        ],
+      },
+    ],
+    passingScore: 8,
+    summary:
+      'Critical RCE and SQL injection on internet-facing systems are top priorities. Match exploitation tools to vulnerability types: Metasploit for RCE, SQLmap for SQLi, Mimikatz for credential theft.',
+  },
+  {
+    id: 'pt-04',
+    certification: 'PenTest+',
+    title: 'Exploit a web application vulnerability',
+    description:
+      'You have identified a SQL injection vulnerability in a login form. Review the exploitation steps, identify the correct attack sequence, and select appropriate tools.',
+    tasks: [
+      {
+        id: 'pt-04-t1',
+        title: 'Task 1: Identify the correct exploitation sequence',
+        instruction: 'Select all steps that are part of proper SQL injection exploitation.',
+        items: [
+          { id: 'a', title: 'Identify injection point', detail: 'Confirm which parameter is vulnerable.', correct: true },
+          { id: 'b', title: 'Determine database type', detail: 'Identify MySQL, MSSQL, PostgreSQL, or Oracle.', correct: true },
+          { id: 'c', title: 'Exploit without authorization', detail: 'SQL injection requires proper authorization.', correct: false },
+          { id: 'd', title: 'Extract database schema', detail: 'Enumerate tables and columns.', correct: true },
+          { id: 'e', title: 'Delete database contents', detail: 'Destructive testing requires explicit permission.', correct: false },
+          { id: 'f', title: 'Document findings', detail: 'Record evidence of successful exploitation.', correct: true },
+        ],
+      },
+      {
+        id: 'pt-04-t2',
+        title: 'Task 2: Select appropriate tools',
+        instruction: 'Choose the correct tools for SQL injection exploitation.',
+        items: [
+          { id: 'a', title: 'SQLmap', detail: 'Automated SQL injection tool.', correct: true },
+          { id: 'b', title: 'Burp Suite', detail: 'Proxy for manual SQL injection testing.', correct: true },
+          { id: 'c', title: 'Aircrack-ng', detail: 'Wireless security tool, not for SQL injection.', correct: false },
+          { id: 'd', title: 'Wireshark', detail: 'Network analyzer, not for SQL injection exploitation.', correct: false },
+          { id: 'e', title: 'Hashcat', detail: 'Password cracker, not for SQL injection.', correct: false },
+          { id: 'f', title: 'Nmap', detail: 'Port scanner, not for SQL injection exploitation.', correct: false },
+        ],
+      },
+    ],
+    passingScore: 7,
+    summary:
+      'SQL injection exploitation follows a sequence: identify the injection point, determine the database type, extract the schema, and document findings. SQLmap and Burp Suite are the primary tools.',
+  },
+  {
+    id: 'pt-05',
+    certification: 'PenTest+',
+    title: 'Perform password attacks',
+    description:
+      'You have obtained password hashes from a target system. Review the hash types, select appropriate cracking techniques, and determine the correct attack approach.',
+    tasks: [
+      {
+        id: 'pt-05-t1',
+        title: 'Task 1: Identify hash types and attack methods',
+        instruction: 'Select all correct hash-to-attack combinations.',
+        items: [
+          { id: 'a', title: 'NTLM hashes with Hashcat', detail: 'Hashcat supports NTLM hash cracking with GPU acceleration.', correct: true },
+          { id: 'b', title: 'MD5 hashes with John the Ripper', detail: 'John the Ripper handles MD5 and many other formats.', correct: true },
+          { id: 'c', title: 'AES encryption with Hydra', detail: 'Hydra is for online brute force, not offline hash cracking.', correct: false },
+          { id: 'd', title: 'SHA-256 with Rainbow Tables', detail: 'Rainbow tables work for unsalted hashes, not salted SHA-256.', correct: false },
+          { id: 'e', title: 'bcrypt with Hashcat', detail: 'Hashcat supports bcrypt with appropriate attack modes.', correct: true },
+          { id: 'f', title: 'Plaintext with Base64 decoding', detail: 'Base64 is encoding, not hashing.', correct: false },
+        ],
+      },
+      {
+        id: 'pt-05-t2',
+        title: 'Task 2: Select appropriate password attack types',
+        instruction: 'Choose the correct attack types for different scenarios.',
+        items: [
+          { id: 'a', title: 'Dictionary attack', detail: 'Try common passwords from a wordlist.', correct: true },
+          { id: 'b', title: 'Brute force attack', detail: 'Try every possible character combination.', correct: true },
+          { id: 'c', title: 'Phishing attack', detail: 'Social engineering, not a hash cracking method.', correct: false },
+          { id: 'd', title: 'Rainbow table attack', detail: 'Precomputed hash lookups for unsalted hashes.', correct: true },
+          { id: 'e', title: 'Man-in-the-middle attack', detail: 'Network interception, not hash cracking.', correct: false },
+          { id: 'f', title: 'Rule-based attack', detail: 'Apply transformation rules to dictionary words.', correct: true },
+        ],
+      },
+    ],
+    passingScore: 8,
+    summary:
+      'Match hash types to cracking tools: NTLM and bcrypt with Hashcat, MD5 with John the Ripper. Attack types include dictionary, brute force, rainbow table, and rule-based methods.',
+  },
+  {
+    id: 'pt-06',
+    certification: 'PenTest+',
+    title: 'Escalate privileges on a compromised host',
+    description:
+      'You have initial access to a Linux host as a low-privilege user. Review the host configuration, identify privilege escalation vectors, and select appropriate exploitation techniques.',
+    tasks: [
+      {
+        id: 'pt-06-t1',
+        title: 'Task 1: Identify privilege escalation vectors',
+        instruction: 'Select all configurations that could allow privilege escalation.',
+        items: [
+          { id: 'a', title: 'SUID binary owned by root', detail: 'SUID programs run with owner privileges.', correct: true },
+          { id: 'b', title: 'World-writable cron job', detail: 'Cron jobs writable by any user can be modified.', correct: true },
+          { id: 'c', title: 'Standard user home directory', detail: 'Normal user directory with default permissions.', correct: false },
+          { id: 'd', title: 'Misconfigured sudoers file', detail: 'Overly permissive sudo rules.', correct: true },
+          { id: 'e', title: 'Read-only system logs', detail: 'Logs that cannot be modified.', correct: false },
+          { id: 'f', title: 'Unpatched kernel vulnerability', detail: 'Known kernel exploits for privilege escalation.', correct: true },
+        ],
+      },
+      {
+        id: 'pt-06-t2',
+        title: 'Task 2: Select appropriate enumeration tools',
+        instruction: 'Choose the correct tools for privilege escalation enumeration.',
+        items: [
+          { id: 'a', title: 'LinEnum', detail: 'Automated Linux privilege escalation enumeration script.', correct: true },
+          { id: 'b', title: 'WinPEAS', detail: 'Windows privilege escalation enumeration (for Windows, not Linux).', correct: false },
+          { id: 'c', title: 'linux-smart-enumeration', detail: 'Another Linux enumeration tool.', correct: true },
+          { id: 'd', title: 'Nmap', detail: 'Port scanner, not privilege escalation enumerator.', correct: false },
+          { id: 'e', title: 'PowerUp', detail: 'Windows privilege escalation tool (for Windows, not Linux).', correct: false },
+          { id: 'f', title: 'SUID3NUM', detail: 'Enumerates SUID binaries on Linux.', correct: true },
+        ],
+      },
+    ],
+    passingScore: 8,
+    summary:
+      'Linux privilege escalation vectors include SUID binaries, writable cron jobs, sudoers misconfigurations, and unpatched kernels. LinEnum and linux-smart-enumeration automate the discovery process.',
+  },
+  {
+    id: 'pt-07',
+    certification: 'PenTest+',
+    title: 'Move laterally across a Windows network',
+    description:
+      'You have compromised one Windows workstation on a domain network. Review the network environment, identify lateral movement techniques, and select appropriate tools.',
+    tasks: [
+      {
+        id: 'pt-07-t1',
+        title: 'Task 1: Identify lateral movement vectors',
+        instruction: 'Select all techniques that could enable lateral movement.',
+        items: [
+          { id: 'a', title: 'Pass-the-hash attack', detail: 'Reuse captured NTLM hashes to authenticate to other systems.', correct: true },
+          { id: 'b', title: 'Exploiting SMB vulnerabilities', detail: 'EternalBlue and similar SMB exploits.', correct: true },
+          { id: 'c', title: 'Changing desktop wallpaper', detail: 'No security impact.', correct: false },
+          { id: 'd', title: 'WMI remote execution', detail: 'Use WMI to run commands on remote systems.', correct: true },
+          { id: 'e', title: 'Updating Windows Defender', detail: 'Defensive action, not lateral movement.', correct: false },
+          { id: 'f', title: 'PowerShell remoting', detail: 'Use WinRM to execute commands remotely.', correct: true },
+        ],
+      },
+      {
+        id: 'pt-07-t2',
+        title: 'Task 2: Select appropriate tools',
+        instruction: 'Choose the correct tools for Windows lateral movement.',
+        items: [
+          { id: 'a', title: 'CrackMapExec', detail: 'Automated credential spraying and lateral movement.', correct: true },
+          { id: 'b', title: 'BloodHound', detail: 'Maps AD attack paths and trust relationships.', correct: true },
+          { id: 'c', title: 'Aircrack-ng', detail: 'Wireless security tool, not for lateral movement.', correct: false },
+          { id: 'd', title: 'SQLmap', detail: 'SQL injection tool, not for lateral movement.', correct: false },
+          { id: 'e', title: 'Impacket', detail: 'Python library for SMB, WinRM, and Kerberos attacks.', correct: true },
+          { id: 'f', title: 'Burp Suite', detail: 'Web proxy, not for lateral movement.', correct: false },
+        ],
+      },
+    ],
+    passingScore: 8,
+    summary:
+      'Windows lateral movement uses pass-the-hash, SMB exploits, WMI, and PowerShell remoting. CrackMapExec, BloodHound, and Impacket are the primary tools.',
+  },
+  {
+    id: 'pt-08',
+    certification: 'PenTest+',
+    title: 'Write a penetration test report',
+    description:
+      'You have completed a penetration test and need to write the final report. Review the report requirements, identify required sections, and select appropriate content.',
+    tasks: [
+      {
+        id: 'pt-08-t1',
+        title: 'Task 1: Identify required report sections',
+        instruction: 'Select all sections that must be included in a penetration test report.',
+        items: [
+          { id: 'a', title: 'Executive summary', detail: 'High-level overview for leadership.', correct: true },
+          { id: 'b', title: 'Methodology', detail: 'Testing approach and tools used.', correct: true },
+          { id: 'c', title: 'Raw tool output without analysis', detail: 'Findings must include analysis, not just raw output.', correct: false },
+          { id: 'd', title: 'Findings with risk ratings', detail: 'Each finding with severity and impact.', correct: true },
+          { id: 'e', title: 'Tester personal opinions', detail: 'Reports should be factual, not opinion-based.', correct: false },
+          { id: 'f', title: 'Remediation recommendations', detail: 'Actionable steps to fix findings.', correct: true },
+        ],
+      },
+      {
+        id: 'pt-08-t2',
+        title: 'Task 2: Select appropriate remediation guidance',
+        instruction: 'Choose the correct approach for prioritizing remediation.',
+        items: [
+          { id: 'a', title: 'Risk-based prioritization', detail: 'Prioritize by combined likelihood and impact.', correct: true },
+          { id: 'b', title: 'Alphabetical by vulnerability name', detail: 'Arbitrary ordering is not effective.', correct: false },
+          { id: 'c', title: 'Reverse chronological discovery order', detail: 'Discovery order does not reflect risk.', correct: false },
+          { id: 'd', title: 'Include specific fix steps', detail: 'Provide actionable remediation guidance.', correct: true },
+          { id: 'e', title: 'Only list vulnerabilities without context', detail: 'Findings need context and impact analysis.', correct: false },
+          { id: 'f', title: 'Reference industry standards', detail: 'Map findings to frameworks like NIST or CIS.', correct: true },
+        ],
+      },
+    ],
+    passingScore: 8,
+    summary:
+      'Penetration test reports require an executive summary, methodology, findings with risk ratings, and remediation recommendations. Prioritize remediation by risk and provide specific fix guidance.',
   },
 ]

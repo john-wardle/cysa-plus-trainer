@@ -20,6 +20,7 @@ export type PbqTask = {
 
 export type PbqScenario = {
   id: string
+  certification: 'CySA+' | 'PenTest+'
   title: string
   description: string
   tasks: PbqTask[]
