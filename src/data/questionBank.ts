@@ -535,3 +535,11 @@ export const cysaDomains = [
   { name: 'Incident Response and Management', weight: 20 },
   { name: 'Reporting and Communication', weight: 17 },
 ]
+
+export const pentestDomains = [
+  { name: 'Planning and Scoping', weight: 14 },
+  { name: 'Information Gathering and Vulnerability Identification', weight: 22 },
+  { name: 'Attacks and Exploits', weight: 30 },
+  { name: 'Reporting and Communication', weight: 14 },
+  { name: 'Tools and Code Analysis', weight: 20 },
+]

@@ -16,7 +16,8 @@ import {
 } from 'lucide-react'
 import PbqRunner from './components/PbqRunner'
 import { pbqScenarios } from './data/pbqScenarios'
-import { cysaDomains, questionBank } from './data/questions'
+import { cysaDomains, pentestDomains, questionBank } from './data/questions'
+import type { Certification } from './data/questionBank'
 
 type StudyStats = {
   questionsAnswered: number
@@ -38,9 +39,12 @@ const defaultStudyStats: StudyStats = {
   questionsCorrect: 0,
 }
 
-function loadStudyStats(): StudyStats {
+const statsKeyFor = (cert: Certification) =>
+  cert === 'CySA+' ? 'cysa-study-stats' : 'pentest-study-stats'
+
+function loadStudyStats(cert: Certification): StudyStats {
   try {
-    const saved = localStorage.getItem('cysa-study-stats')
+    const saved = localStorage.getItem(statsKeyFor(cert))
 
     if (!saved) return defaultStudyStats
 
@@ -62,12 +66,8 @@ function formatTime(totalSeconds: number) {
 }
 
 function App() {
-  const allCysaQuestions = questionBank.filter(
-    (question) =>
-      question.certification === 'CySA+' && question.examVersion === 'CS0-003',
-  )
-
   const [activeMode, setActiveMode] = useState('Dashboard')
+  const [selectedCertification, setSelectedCertification] = useState<Certification>('CySA+')
   const [selectedDomain, setSelectedDomain] = useState('All Domains')
   const [selectedPbq, setSelectedPbq] = useState<string | null>(null)
   const [questionIndex, setQuestionIndex] = useState(0)
@@ -77,16 +77,24 @@ function App() {
   const [sessionResults, setSessionResults] = useState<SessionResult[]>([])
   const [lastQuestionReached, setLastQuestionReached] = useState(false)
   const [secondsRemaining, setSecondsRemaining] = useState(20 * 60)
-  const [studyStats, setStudyStats] = useState<StudyStats>(loadStudyStats)
+  const [studyStats, setStudyStats] = useState<StudyStats>(() => loadStudyStats('CySA+'))
   const [confirmReset, setConfirmReset] = useState(false)
+
+  const examVersion = selectedCertification === 'CySA+' ? 'CS0-003' : 'PT0-002'
+  const domains = selectedCertification === 'CySA+' ? cysaDomains : pentestDomains
+
+  const allQuestions = questionBank.filter(
+    (question) =>
+      question.certification === selectedCertification &&
+      question.examVersion === examVersion,
+  )
 
   const isMockExam = activeMode === 'Mock Exam'
   const sessionComplete = lastQuestionReached || (isMockExam && secondsRemaining <= 0)
 
-  // Practice mode drills a single domain; the mock exam always uses the full bank.
   const cysaQuestions = isMockExam
-    ? allCysaQuestions
-    : allCysaQuestions.filter(
+    ? allQuestions
+    : allQuestions.filter(
         (question) =>
           selectedDomain === 'All Domains' || question.domain === selectedDomain,
       )
@@ -112,8 +120,8 @@ function App() {
     question.choices.find((choice) => choice.id === id)?.text ?? ''
 
   useEffect(() => {
-    localStorage.setItem('cysa-study-stats', JSON.stringify(studyStats))
-  }, [studyStats])
+    localStorage.setItem(statsKeyFor(selectedCertification), JSON.stringify(studyStats))
+  }, [studyStats, selectedCertification])
 
   useEffect(() => {
     if (!isMockExam || secondsRemaining <= 0) return
@@ -141,6 +149,21 @@ function App() {
     setQuestionIndex(0)
     setSelected([])
     setSubmitted(false)
+  }
+
+  function selectCertification(cert: Certification) {
+    setSelectedCertification(cert)
+    setStudyStats(loadStudyStats(cert))
+    setSelectedDomain('All Domains')
+    setQuestionIndex(0)
+    setSelected([])
+    setSubmitted(false)
+    setSessionCorrect(0)
+    setSessionResults([])
+    setLastQuestionReached(false)
+    setSecondsRemaining(20 * 60)
+    setActiveMode('Dashboard')
+    setSelectedPbq(null)
   }
 
   function chooseAnswer(answerId: string) {
@@ -209,7 +232,7 @@ function App() {
   }
 
   function resetProgress() {
-    localStorage.removeItem('cysa-study-stats')
+    localStorage.removeItem(statsKeyFor(selectedCertification))
     setStudyStats(defaultStudyStats)
     setConfirmReset(false)
   }
@@ -225,7 +248,7 @@ function App() {
   const showQuestionSession =
     activeMode === 'Practice' || activeMode === 'Mock Exam'
 
-  const domainOptions = ['All Domains', ...cysaDomains.map((domain) => domain.name)]
+  const domainOptions = ['All Domains', ...domains.map((domain) => domain.name)]
 
   const sessionPercent =
     sessionResults.length > 0
@@ -248,16 +271,35 @@ function App() {
               <ShieldCheck size={26} />
             </div>
             <div>
-              <h1 className="text-lg font-bold tracking-tight">CySA+ Trainer</h1>
+              <h1 className="text-lg font-bold tracking-tight">
+                {selectedCertification} Trainer
+              </h1>
               <p className="text-xs text-slate-400">
-                CS0-003 · Practice · Analyze · Defend
+                {examVersion} · Practice · Analyze · Defend
               </p>
             </div>
           </div>
 
-          <span className="rounded-full border border-cyan-400/25 bg-cyan-400/10 px-3 py-1 text-sm text-cyan-200">
-            Study streak: 4 days
-          </span>
+          <div className="flex items-center gap-3">
+            <div className="flex rounded-lg border border-slate-700 p-0.5">
+              {(['CySA+', 'PenTest+'] as Certification[]).map((cert) => (
+                <button
+                  className={`rounded-md px-3 py-1.5 text-xs font-semibold transition ${
+                    selectedCertification === cert
+                      ? 'bg-cyan-400 text-slate-950'
+                      : 'text-slate-400 hover:text-slate-200'
+                  }`}
+                  key={cert}
+                  onClick={() => selectCertification(cert)}
+                >
+                  {cert}
+                </button>
+              ))}
+            </div>
+            <span className="rounded-full border border-cyan-400/25 bg-cyan-400/10 px-3 py-1 text-sm text-cyan-200">
+              Study streak: 4 days
+            </span>
+          </div>
         </div>
       </header>
 
@@ -347,7 +389,7 @@ function App() {
                 <section className="rounded-2xl border border-slate-800 bg-slate-900 p-6">
                   <h3 className="text-lg font-semibold">Domain breakdown</h3>
                   <div className="mt-5 space-y-4">
-                    {cysaDomains.map((domain) => {
+                    {domains.map((domain) => {
                       const domainResults = sessionResults.filter(
                         (r) => r.domain === domain.name,
                       )
@@ -686,10 +728,10 @@ function App() {
                 <article className="rounded-2xl border border-slate-800 bg-slate-900 p-5">
                   <p className="text-sm text-slate-400">Question bank size</p>
                   <p className="mt-2 text-4xl font-bold">
-                    {allCysaQuestions.length}
+                    {allQuestions.length}
                   </p>
                   <p className="mt-2 text-sm text-slate-400">
-                    Across four CS0-003 domains
+                    {selectedCertification} {examVersion} questions
                   </p>
                 </article>
               </div>
@@ -740,8 +782,8 @@ function App() {
                 </h2>
                 <p className="mt-2 max-w-2xl text-slate-400">
                   Original question scenarios and practical simulations organized for
-                  CySA+ CS0-003. The platform is structured to add PenTest+ later
-                  without mixing objectives or scores.
+                  {selectedCertification} {examVersion}. Practice exams and hands-on labs
+                  with no mixing of objectives or scores between certifications.
                 </p>
               </div>
 
@@ -760,7 +802,7 @@ function App() {
                     {studyStats.questionsAnswered}
                   </p>
                   <p className="mt-2 text-sm text-slate-400">
-                    Question bank: {allCysaQuestions.length} questions
+                    Question bank: {allQuestions.length} questions
                   </p>
                 </article>
 
@@ -779,7 +821,7 @@ function App() {
                   <h3 className="mt-4 text-lg font-semibold">Practice by scenario</h3>
                   <p className="mt-2 text-slate-400">
                     Learn through immediate feedback and explanations. Drill a single
-                    domain or mix all four.
+                    domain or mix all.
                   </p>
                   <button
                     className="mt-5 inline-flex items-center gap-2 rounded-lg bg-cyan-400 px-5 py-3 font-semibold text-slate-950 transition hover:bg-cyan-300"
@@ -794,7 +836,7 @@ function App() {
                   <Clock3 className="text-amber-300" size={26} />
                   <h3 className="mt-4 text-lg font-semibold">Timed mock exam</h3>
                   <p className="mt-2 text-slate-400">
-                    A full-bank timed build test for the mock-exam workflow.
+                    A full-bank timed test for the mock-exam workflow.
                   </p>
                   <button
                     className="mt-5 inline-flex items-center gap-2 rounded-lg border border-amber-300/60 px-5 py-3 font-semibold text-amber-200 transition hover:bg-amber-300 hover:text-slate-950"
@@ -807,11 +849,13 @@ function App() {
               </section>
 
               <section className="rounded-2xl border border-slate-800 bg-slate-900 p-6">
-                <h3 className="text-lg font-semibold">CS0-003 objective weighting</h3>
+                <h3 className="text-lg font-semibold">
+                  {selectedCertification} {examVersion} objective weighting
+                </h3>
 
                 <div className="mt-6 space-y-5">
-                  {cysaDomains.map((domain) => {
-                    const questionCount = allCysaQuestions.filter(
+                  {domains.map((domain) => {
+                    const questionCount = allQuestions.filter(
                       (question) => question.domain === domain.name,
                     ).length
 
