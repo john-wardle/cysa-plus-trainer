@@ -3787,4 +3787,954 @@ export const securityOperationsQuestions: TrainingQuestion[] = [
     explanation:
       'Red teams simulate adversary tactics to test whether security controls and detection capabilities can withstand realistic attacks.',
   },
+  {
+    id: 'cysa-so-209',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Security Operations',
+    objective: 'Identify the purpose of a security operations center tier structure.',
+    difficulty: 'Medium',
+    prompt:
+      'Why do security operations centers use a tiered analyst structure?',
+    choices: [
+      { id: 'a', text: 'To escalate complex incidents to more experienced analysts efficiently.' },
+      { id: 'b', text: 'To reduce the number of computers.' },
+      { id: 'c', text: 'To increase monitor brightness.' },
+      { id: 'd', text: 'To manage printer fleets.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'Tiered structures route alerts to appropriate skill levels ensuring that complex incidents reach experienced analysts while tier one handles routine triage.',
+  },
+  {
+    id: 'cysa-so-210',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Security Operations',
+    objective: 'Recognize the risk of unmonitored DNS queries to dynamic DNS providers.',
+    difficulty: 'Medium',
+    prompt:
+      'An internal host begins querying domains from a dynamic DNS provider known for abuse. Why is this concerning?',
+    choices: [
+      { id: 'a', text: 'Dynamic DNS is frequently used by attackers for command-and-control infrastructure.' },
+      { id: 'b', text: 'It improves network performance.' },
+      { id: 'c', text: 'Printer queues become shorter.' },
+      { id: 'd', text: 'Keyboard life increases.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'Attackers use dynamic DNS to maintain resilient C2 infrastructure that is difficult to block; queries to these providers warrant investigation.',
+  },
+  {
+    id: 'cysa-so-211',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Security Operations',
+    objective: 'Select the best approach for detecting pass-the-ticket attacks.',
+    difficulty: 'Hard',
+    prompt:
+      'An attacker steals Kerberos ticket-granting tickets and uses them to access resources without passwords. Which detection approach is most effective?',
+    choices: [
+      { id: 'a', text: 'Monitoring for ticket use from new hosts combined with anomalous service access patterns.' },
+      { id: 'b', text: 'Signature-based antivirus alone.' },
+      { id: 'c', text: 'Disabling all logging.' },
+      { id: 'd', text: 'Blocking all email.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'Pass-the-ticket attacks reuse stolen tickets; detecting ticket use from new hosts and anomalous service access patterns reveals the abuse.',
+  },
+  {
+    id: 'cysa-so-212',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Security Operations',
+    objective: 'Identify the purpose of a security operations data retention policy.',
+    difficulty: 'Medium',
+    prompt:
+      'Why is a data retention policy important for security operations?',
+    choices: [
+      { id: 'a', text: 'It ensures logs are available for investigations while managing storage costs.' },
+      { id: 'b', text: 'It reduces the number of computers.' },
+      { id: 'c', text: 'It increases monitor brightness.' },
+      { id: 'd', text: 'To manage printer fleets.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'Retention policies balance the need for historical data against storage costs ensuring logs are available when needed for investigations.',
+  },
+  {
+    id: 'cysa-so-213',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Security Operations',
+    objective: 'Determine the best response to a confirmed account compromise.',
+    difficulty: 'Medium',
+    prompt:
+      'A user account is confirmed to be compromised. Which action should the incident response team take first?',
+    choices: [
+      { id: 'a', text: 'Disable the account and revoke active sessions.' },
+      { id: 'b', text: 'Delete the user email.' },
+      { id: 'c', text: 'Ignore the compromise.' },
+      { id: 'd', text: 'Shut down the entire network.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'Disabling the account and revoking sessions immediately stops the attacker from using the compromised credentials while preserving evidence.',
+  },
+  {
+    id: 'cysa-so-214',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Security Operations',
+    objective: 'Select appropriate controls for detecting golden ticket attacks.',
+    difficulty: 'Hard',
+    prompt:
+      'An attacker forges Kerberos ticket-granting tickets to gain domain-wide access. Which detection approach is most effective?',
+    choices: [
+      { id: 'a', text: 'Monitoring for ticket anomalies and KRBTGT account changes combined with domain controller logs.' },
+      { id: 'b', text: 'Signature-based antivirus alone.' },
+      { id: 'c', text: 'Disabling all logging.' },
+      { id: 'd', text: 'Blocking all email.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'Golden ticket attacks forge TGTs; monitoring for ticket anomalies and KRBTGT account changes reveals the forged tickets and the attacker activity.',
+  },
+  {
+    id: 'cysa-so-215',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Security Operations',
+    objective: 'Identify the purpose of a security operations escalation procedure.',
+    difficulty: 'Easy',
+    prompt:
+      'What is the primary purpose of an escalation procedure in security operations?',
+    choices: [
+      { id: 'a', text: 'To ensure incidents reach the appropriate level of expertise and authority.' },
+      { id: 'b', text: 'To reduce the number of computers.' },
+      { id: 'c', text: 'To increase monitor brightness.' },
+      { id: 'd', text: 'To manage printer fleets.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'Escalation procedures define when and how incidents are raised to higher tiers or management ensuring appropriate response to serious events.',
+  },
+  {
+    id: 'cysa-so-216',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Security Operations',
+    objective: 'Recognize the importance of security operations shift handover procedures.',
+    difficulty: 'Medium',
+    prompt:
+      'Why are structured shift handover procedures important in a SOC?',
+    choices: [
+      { id: 'a', text: 'They ensure continuity of investigations and awareness of ongoing incidents across shifts.' },
+      { id: 'b', text: 'They reduce the number of computers.' },
+      { id: 'c', text: 'They increase monitor brightness.' },
+      { id: 'd', text: 'To manage printer fleets.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'Structured handovers ensure that incoming analysts are aware of ongoing incidents and investigation status preventing gaps in coverage.',
+  },
+  {
+    id: 'cysa-so-217',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Security Operations',
+    objective: 'Select the best data for investigating a suspected pass-the-hash attack.',
+    difficulty: 'Hard',
+    prompt:
+      'An attacker uses captured NTLM hashes to authenticate without knowing the plaintext password. Which log combination best reveals this attack?',
+    choices: [
+      { id: 'a', text: 'Windows Security logon events showing network logons from unexpected hosts.' },
+      { id: 'b', text: 'Printer queue logs and toner levels.' },
+      { id: 'c', text: 'Monitor refresh rates and screen brightness.' },
+      { id: 'd', text: 'Keyboard language settings.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'Pass-the-hash produces network logons from unexpected hosts using the same account; security logon events reveal the anomalous authentication pattern.',
+  },
+  {
+    id: 'cysa-so-218',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Security Operations',
+    objective: 'Identify the purpose of a security operations quality assurance program.',
+    difficulty: 'Medium',
+    prompt:
+      'What is the primary purpose of a quality assurance program in security operations?',
+    choices: [
+      { id: 'a', text: 'To ensure analysts follow procedures and maintain consistent investigation quality.' },
+      { id: 'b', text: 'To reduce the number of computers.' },
+      { id: 'c', text: 'To increase monitor brightness.' },
+      { id: 'd', text: 'To manage printer fleets.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'QA programs review analyst work to ensure procedures are followed and investigations meet quality standards improving overall effectiveness.',
+  },
+  {
+    id: 'cysa-so-219',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Security Operations',
+    objective: 'Determine the best approach for securing privileged access workstations.',
+    difficulty: 'Medium',
+    prompt:
+      'Which approach best secures privileged access workstations (PAWs)?',
+    choices: [
+      { id: 'a', text: 'Dedicated hardened devices used only for administrative tasks with no internet access.' },
+      { id: 'b', text: 'A longer password.' },
+      { id: 'c', text: 'A faster processor.' },
+      { id: 'd', text: 'A larger monitor.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'PAWs are dedicated hardened devices used only for administrative tasks reducing the attack surface exposed to credential theft.',
+  },
+  {
+    id: 'cysa-so-220',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Security Operations',
+    objective: 'Select appropriate controls for detecting silver ticket attacks.',
+    difficulty: 'Hard',
+    prompt:
+      'An attacker forges service tickets to access specific services without domain admin rights. Which detection approach is most effective?',
+    choices: [
+      { id: 'a', text: 'Monitoring for service ticket anomalies and unusual service access patterns.' },
+      { id: 'b', text: 'Signature-based antivirus alone.' },
+      { id: 'c', text: 'Disabling all logging.' },
+      { id: 'd', text: 'Blocking all email.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'Silver ticket attacks forge service tickets; monitoring for ticket anomalies and unusual service access patterns reveals the forged tickets.',
+  },
+  {
+    id: 'cysa-so-221',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Security Operations',
+    objective: 'Identify the purpose of a security operations incident severity matrix.',
+    difficulty: 'Medium',
+    prompt:
+      'What is the primary purpose of an incident severity matrix?',
+    choices: [
+      { id: 'a', text: 'To standardize how incidents are classified and prioritized based on impact.' },
+      { id: 'b', text: 'To reduce the number of computers.' },
+      { id: 'c', text: 'To increase monitor brightness.' },
+      { id: 'd', text: 'To manage printer fleets.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'Severity matrices provide objective criteria for classifying incidents ensuring consistent prioritization and response across the organization.',
+  },
+  {
+    id: 'cysa-so-222',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Security Operations',
+    objective: 'Recognize the risk of unmonitored service principal usage.',
+    difficulty: 'Medium',
+    prompt:
+      'A cloud service principal begins accessing resources at unusual times. Why is this concerning?',
+    choices: [
+      { id: 'a', text: 'Service principals can be compromised and used to access cloud resources without user interaction.' },
+      { id: 'b', text: 'It improves cloud performance.' },
+      { id: 'c', text: 'Printer queues become shorter.' },
+      { id: 'd', text: 'Keyboard life increases.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'Service principals authenticate non-interactively and if compromised provide attackers with persistent access to cloud resources.',
+  },
+  {
+    id: 'cysa-so-223',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Security Operations',
+    objective: 'Select the best approach for detecting diamond ticket attacks.',
+    difficulty: 'Hard',
+    prompt:
+      'An attacker modifies legitimate Kerberos tickets to extend their privileges. Which detection approach is most effective?',
+    choices: [
+      { id: 'a', text: 'Monitoring for ticket modifications and anomalous privilege escalations in domain logs.' },
+      { id: 'b', text: 'Signature-based antivirus alone.' },
+      { id: 'c', text: 'Disabling all logging.' },
+      { id: 'd', text: 'Blocking all email.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'Diamond ticket attacks modify legitimate tickets; monitoring for ticket modifications and anomalous privilege changes reveals the attack.',
+  },
+  {
+    id: 'cysa-so-224',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Security Operations',
+    objective: 'Identify the purpose of a security operations continuous monitoring program.',
+    difficulty: 'Medium',
+    prompt:
+      'What is the primary goal of continuous monitoring in security operations?',
+    choices: [
+      { id: 'a', text: 'To maintain real-time awareness of the security posture and detect threats promptly.' },
+      { id: 'b', text: 'To reduce the number of computers.' },
+      { id: 'c', text: 'To increase monitor brightness.' },
+      { id: 'd', text: 'To manage printer fleets.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'Continuous monitoring provides ongoing visibility into the security posture enabling prompt detection and response to threats.',
+  },
+  {
+    id: 'cysa-so-225',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Security Operations',
+    objective: 'Determine the best approach for securing just-in-time access.',
+    difficulty: 'Medium',
+    prompt:
+      'Which approach best implements just-in-time privileged access?',
+    choices: [
+      { id: 'a', text: 'Granting temporary elevated privileges that expire after a defined period.' },
+      { id: 'b', text: 'A longer password.' },
+      { id: 'c', text: 'A faster processor.' },
+      { id: 'd', text: 'A larger monitor.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'Just-in-time access grants privileges only when needed and for a limited time reducing the window of opportunity for credential abuse.',
+  },
+  {
+    id: 'cysa-so-226',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Security Operations',
+    objective: 'Select appropriate controls for detecting skeleton key attacks.',
+    difficulty: 'Hard',
+    prompt:
+      'An attacker installs a skeleton key malware on a domain controller that accepts a master password. Which detection approach is most effective?',
+    choices: [
+      { id: 'a', text: 'Monitoring for authentication anomalies and domain controller integrity checks.' },
+      { id: 'b', text: 'Signature-based antivirus alone.' },
+      { id: 'c', text: 'Disabling all logging.' },
+      { id: 'd', text: 'Blocking all email.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'Skeleton key malware creates a master password bypass; monitoring for authentication anomalies and DC integrity checks reveals the compromise.',
+  },
+  {
+    id: 'cysa-so-227',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Security Operations',
+    objective: 'Identify the purpose of a security operations threat-informed defense strategy.',
+    difficulty: 'Medium',
+    prompt:
+      'What is the primary benefit of a threat-informed defense strategy?',
+    choices: [
+      { id: 'a', text: 'It aligns security investments with the threats most likely to affect the organization.' },
+      { id: 'b', text: 'It reduces the number of computers.' },
+      { id: 'c', text: 'It increases monitor brightness.' },
+      { id: 'd', text: 'To manage printer fleets.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'Threat-informed defense prioritizes resources against the adversaries and techniques most relevant to the organization improving security ROI.',
+  },
+  {
+    id: 'cysa-so-228',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Security Operations',
+    objective: 'Recognize the importance of security operations metrics reporting.',
+    difficulty: 'Easy',
+    prompt:
+      'Why should security operations report metrics to leadership regularly?',
+    choices: [
+      { id: 'a', text: 'To demonstrate the value of security investments and guide strategic decisions.' },
+      { id: 'b', text: 'To reduce the number of computers.' },
+      { id: 'c', text: 'To increase monitor brightness.' },
+      { id: 'd', text: 'To manage printer fleets.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'Regular metrics reporting demonstrates security program value and provides leadership with data to make informed investment decisions.',
+  },
+  {
+    id: 'cysa-so-229',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Security Operations',
+    objective: 'Select the best approach for detecting malicious WMI activity.',
+    difficulty: 'Hard',
+    prompt:
+      'An attacker uses WMI to execute commands and move laterally between hosts. Which detection approach is most effective?',
+    choices: [
+      { id: 'a', text: 'Monitoring WMI process creation events and correlating with network connections.' },
+      { id: 'b', text: 'Signature-based antivirus alone.' },
+      { id: 'c', text: 'Disabling all logging.' },
+      { id: 'd', text: 'Blocking all email.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'WMI execution creates processes and network connections; monitoring WMI process creation and correlating with network activity reveals the abuse.',
+  },
+  {
+    id: 'cysa-so-230',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Security Operations',
+    objective: 'Identify the purpose of a security operations incident response plan.',
+    difficulty: 'Easy',
+    prompt:
+      'What is the primary purpose of an incident response plan?',
+    choices: [
+      { id: 'a', text: 'To provide a structured approach for responding to security incidents.' },
+      { id: 'b', text: 'To replace all security tools.' },
+      { id: 'c', text: 'To manage building lighting.' },
+      { id: 'd', text: 'To schedule team lunches.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'An IR plan defines roles responsibilities and procedures ensuring a coordinated and effective response to security incidents.',
+  },
+  {
+    id: 'cysa-so-231',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Security Operations',
+    objective: 'Determine the best approach for securing managed service provider access.',
+    difficulty: 'Medium',
+    prompt:
+      'Which approach best secures managed service provider (MSP) access to the environment?',
+    choices: [
+      { id: 'a', text: 'Dedicated accounts with MFA session recording and time-bound access.' },
+      { id: 'b', text: 'A longer password.' },
+      { id: 'c', text: 'A faster processor.' },
+      { id: 'd', text: 'A larger monitor.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'MSP access requires dedicated accounts with MFA and session recording to maintain accountability and limit the blast radius of a compromise.',
+  },
+  {
+    id: 'cysa-so-232',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Security Operations',
+    objective: 'Select appropriate controls for detecting malicious scheduled task creation.',
+    difficulty: 'Hard',
+    prompt:
+      'An attacker creates scheduled tasks to maintain persistence on compromised hosts. Which detection approach is most effective?',
+    choices: [
+      { id: 'a', text: 'Monitoring scheduled task creation events and correlating with process execution.' },
+      { id: 'b', text: 'Signature-based antivirus alone.' },
+      { id: 'c', text: 'Disabling all logging.' },
+      { id: 'd', text: 'Blocking all email.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'Scheduled task creation events reveal persistence mechanisms; correlating with process execution shows what the tasks actually run.',
+  },
+  {
+    id: 'cysa-so-233',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Security Operations',
+    objective: 'Identify the purpose of a security operations lessons learned process.',
+    difficulty: 'Medium',
+    prompt:
+      'What is the primary purpose of a lessons learned process after an incident?',
+    choices: [
+      { id: 'a', text: 'To identify improvements and prevent similar incidents in the future.' },
+      { id: 'b', text: 'To reduce the number of computers.' },
+      { id: 'c', text: 'To increase monitor brightness.' },
+      { id: 'd', text: 'To manage printer fleets.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'Lessons learned processes capture what went well and what did not enabling continuous improvement of security operations.',
+  },
+  {
+    id: 'cysa-so-234',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Security Operations',
+    objective: 'Recognize the risk of unmonitored PowerShell remoting.',
+    difficulty: 'Medium',
+    prompt:
+      'An attacker uses PowerShell remoting to execute commands on multiple hosts. Why is this difficult to detect?',
+    choices: [
+      { id: 'a', text: 'PowerShell remoting uses legitimate administrative protocols that blend with normal activity.' },
+      { id: 'b', text: 'It improves system performance.' },
+      { id: 'c', text: 'Printer queues become shorter.' },
+      { id: 'd', text: 'Keyboard life increases.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'PowerShell remoting uses legitimate WinRM protocols making it difficult to distinguish from normal administrative activity without behavioral analysis.',
+  },
+  {
+    id: 'cysa-so-235',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Security Operations',
+    objective: 'Select the best approach for detecting malicious registry run key modifications.',
+    difficulty: 'Hard',
+    prompt:
+      'An attacker adds registry run keys to maintain persistence. Which detection approach is most effective?',
+    choices: [
+      { id: 'a', text: 'Monitoring registry modifications to run keys and correlating with process execution.' },
+      { id: 'b', text: 'Signature-based antivirus alone.' },
+      { id: 'c', text: 'Disabling all logging.' },
+      { id: 'd', text: 'Blocking all email.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'Run key modifications reveal persistence mechanisms; correlating with process execution shows what the keys actually launch.',
+  },
+  {
+    id: 'cysa-so-236',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Security Operations',
+    objective: 'Identify the purpose of a security operations threat intelligence requirements process.',
+    difficulty: 'Medium',
+    prompt:
+      'What is the primary purpose of defining threat intelligence requirements?',
+    choices: [
+      { id: 'a', text: 'To ensure intelligence collection addresses the specific threats relevant to the organization.' },
+      { id: 'b', text: 'To reduce the number of computers.' },
+      { id: 'c', text: 'To increase monitor brightness.' },
+      { id: 'd', text: 'To manage printer fleets.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'Defining intelligence requirements ensures that collection and analysis focus on the threats and adversaries most relevant to the organization.',
+  },
+  {
+    id: 'cysa-so-237',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Security Operations',
+    objective: 'Determine the best approach for securing cloud workload identity.',
+    difficulty: 'Medium',
+    prompt:
+      'Which approach best secures cloud workload identity?',
+    choices: [
+      { id: 'a', text: 'Workload identity with short-lived tokens and automatic rotation.' },
+      { id: 'b', text: 'A longer password.' },
+      { id: 'c', text: 'A faster processor.' },
+      { id: 'd', text: 'A larger monitor.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'Workload identities should use short-lived tokens with automatic rotation to minimize the impact of credential theft.',
+  },
+  {
+    id: 'cysa-so-238',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Security Operations',
+    objective: 'Select appropriate controls for detecting malicious service installation.',
+    difficulty: 'Hard',
+    prompt:
+      'An attacker installs malicious services on compromised hosts. Which detection approach is most effective?',
+    choices: [
+      { id: 'a', text: 'Monitoring service installation events and correlating with process execution and network connections.' },
+      { id: 'b', text: 'Signature-based antivirus alone.' },
+      { id: 'c', text: 'Disabling all logging.' },
+      { id: 'd', text: 'Blocking all email.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'Service installation events reveal persistence mechanisms; correlating with process execution and network connections shows the full attack chain.',
+  },
+  {
+    id: 'cysa-so-239',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Security Operations',
+    objective: 'Identify the purpose of a security operations detection engineering lifecycle.',
+    difficulty: 'Medium',
+    prompt:
+      'What is the primary goal of the detection engineering lifecycle?',
+    choices: [
+      { id: 'a', text: 'To ensure detections remain effective as threats and environments evolve.' },
+      { id: 'b', text: 'To reduce the number of computers.' },
+      { id: 'c', text: 'To increase monitor brightness.' },
+      { id: 'd', text: 'To manage printer fleets.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'The detection engineering lifecycle ensures that detection content is continuously validated tested and updated to maintain effectiveness.',
+  },
+  {
+    id: 'cysa-so-240',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Security Operations',
+    objective: 'Recognize the importance of security operations data source onboarding.',
+    difficulty: 'Medium',
+    prompt:
+      'Why is proper data source onboarding important for security operations?',
+    choices: [
+      { id: 'a', text: 'It ensures logs are parsed correctly and available for detection and investigation.' },
+      { id: 'b', text: 'It reduces the number of computers.' },
+      { id: 'c', text: 'It increases monitor brightness.' },
+      { id: 'd', text: 'To manage printer fleets.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'Proper onboarding ensures that logs are parsed normalized and indexed correctly making them usable for detection and investigation.',
+  },
+  {
+    id: 'cysa-so-241',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Security Operations',
+    objective: 'Select the best approach for detecting malicious WMI event subscription.',
+    difficulty: 'Hard',
+    prompt:
+      'An attacker uses WMI event subscriptions to maintain persistence. Which detection approach is most effective?',
+    choices: [
+      { id: 'a', text: 'Monitoring WMI event subscription creation and correlating with process execution.' },
+      { id: 'b', text: 'Signature-based antivirus alone.' },
+      { id: 'c', text: 'Disabling all logging.' },
+      { id: 'd', text: 'Blocking all email.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'WMI event subscriptions create persistent event consumers; monitoring subscription creation and correlating with process execution reveals the persistence.',
+  },
+  {
+    id: 'cysa-so-242',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Security Operations',
+    objective: 'Identify the purpose of a security operations detection content management process.',
+    difficulty: 'Medium',
+    prompt:
+      'What is the primary purpose of managing detection content systematically?',
+    choices: [
+      { id: 'a', text: 'To track version control testing and deployment of detection rules.' },
+      { id: 'b', text: 'To reduce the number of computers.' },
+      { id: 'c', text: 'To increase monitor brightness.' },
+      { id: 'd', text: 'To manage printer fleets.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'Systematic management of detection content ensures rules are versioned tested and deployed consistently across the environment.',
+  },
+  {
+    id: 'cysa-so-243',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Security Operations',
+    objective: 'Determine the best approach for securing infrastructure as code pipelines.',
+    difficulty: 'Medium',
+    prompt:
+      'Which approach best secures infrastructure as code (IaC) pipelines?',
+    choices: [
+      { id: 'a', text: 'Static analysis of templates combined with policy as code and secrets scanning.' },
+      { id: 'b', text: 'A longer password.' },
+      { id: 'c', text: 'A faster processor.' },
+      { id: 'd', text: 'A larger monitor.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'IaC security requires static analysis to catch misconfigurations policy as code to enforce standards and secrets scanning to prevent credential exposure.',
+  },
+  {
+    id: 'cysa-so-244',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Security Operations',
+    objective: 'Select appropriate controls for detecting malicious COM hijacking.',
+    difficulty: 'Hard',
+    prompt:
+      'An attacker hijacks COM objects to execute malicious code. Which detection approach is most effective?',
+    choices: [
+      { id: 'a', text: 'Monitoring COM object registration changes and correlating with process execution.' },
+      { id: 'b', text: 'Signature-based antivirus alone.' },
+      { id: 'c', text: 'Disabling all logging.' },
+      { id: 'd', text: 'Blocking all email.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'COM hijacking modifies registry entries for COM objects; monitoring registration changes and correlating with process execution reveals the abuse.',
+  },
+  {
+    id: 'cysa-so-245',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Security Operations',
+    objective: 'Identify the purpose of a security operations detection validation process.',
+    difficulty: 'Medium',
+    prompt:
+      'What is the primary purpose of validating detection rules?',
+    choices: [
+      { id: 'a', text: 'To confirm rules detect intended threats and do not generate excessive noise.' },
+      { id: 'b', text: 'To reduce the number of computers.' },
+      { id: 'c', text: 'To increase monitor brightness.' },
+      { id: 'd', text: 'To manage printer fleets.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'Validation confirms that detection rules work as intended catching real threats while minimizing false positives.',
+  },
+  {
+    id: 'cysa-so-246',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Security Operations',
+    objective: 'Recognize the risk of unmonitored container escape attempts.',
+    difficulty: 'Medium',
+    prompt:
+      'A container begins attempting to access the host operating system directly. Why is this concerning?',
+    choices: [
+      { id: 'a', text: 'Container escape attempts indicate an attacker is trying to break out to the host.' },
+      { id: 'b', text: 'It improves container performance.' },
+      { id: 'c', text: 'Printer queues become shorter.' },
+      { id: 'd', text: 'Keyboard life increases.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'Containers are isolated from the host; attempts to access the host OS directly indicate a container escape attempt that could compromise the host.',
+  },
+  {
+    id: 'cysa-so-247',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Security Operations',
+    objective: 'Select the best approach for detecting malicious DLL hijacking.',
+    difficulty: 'Hard',
+    prompt:
+      'An attacker places a malicious DLL in a location that is searched before the legitimate one. Which detection approach is most effective?',
+    choices: [
+      { id: 'a', text: 'Monitoring DLL load events and verifying digital signatures of loaded modules.' },
+      { id: 'b', text: 'Signature-based antivirus alone.' },
+      { id: 'c', text: 'Disabling all logging.' },
+      { id: 'd', text: 'Blocking all email.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'DLL hijacking loads malicious libraries; monitoring DLL load events and verifying signatures reveals unauthorized or unsigned modules.',
+  },
+  {
+    id: 'cysa-so-248',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Security Operations',
+    objective: 'Identify the purpose of a security operations detection coverage assessment.',
+    difficulty: 'Medium',
+    prompt:
+      'What is the primary purpose of assessing detection coverage?',
+    choices: [
+      { id: 'a', text: 'To identify gaps where threats could go undetected.' },
+      { id: 'b', text: 'To reduce the number of computers.' },
+      { id: 'c', text: 'To increase monitor brightness.' },
+      { id: 'd', text: 'To manage printer fleets.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'Coverage assessments map existing detections to threat scenarios revealing gaps where the organization is blind to specific attacks.',
+  },
+  {
+    id: 'cysa-so-249',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Security Operations',
+    objective: 'Determine the best approach for securing serverless function triggers.',
+    difficulty: 'Medium',
+    prompt:
+      'Which approach best secures serverless function triggers?',
+    choices: [
+      { id: 'a', text: 'Input validation combined with least-privilege execution roles and API authentication.' },
+      { id: 'b', text: 'A longer function name.' },
+      { id: 'c', text: 'A faster processor.' },
+      { id: 'd', text: 'A larger monitor.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'Serverless triggers require input validation to prevent injection least-privilege roles to limit blast radius and authentication to control access.',
+  },
+  {
+    id: 'cysa-so-250',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Security Operations',
+    objective: 'Select appropriate controls for detecting malicious Office macro execution.',
+    difficulty: 'Hard',
+    prompt:
+      'An attacker uses malicious Office macros to execute payloads. Which detection approach is most effective?',
+    choices: [
+      { id: 'a', text: 'Monitoring macro execution events and correlating with process creation and network connections.' },
+      { id: 'b', text: 'Signature-based antivirus alone.' },
+      { id: 'c', text: 'Disabling all logging.' },
+      { id: 'd', text: 'Blocking all email.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'Macro execution creates child processes and network connections; monitoring macro events and correlating with process and network activity reveals the payload.',
+  },
+  {
+    id: 'cysa-so-251',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Security Operations',
+    objective: 'Identify the purpose of a security operations detection tuning process.',
+    difficulty: 'Medium',
+    prompt:
+      'What is the primary purpose of tuning detection rules?',
+    choices: [
+      { id: 'a', text: 'To reduce false positives while maintaining detection effectiveness.' },
+      { id: 'b', text: 'To reduce the number of computers.' },
+      { id: 'c', text: 'To increase monitor brightness.' },
+      { id: 'd', text: 'To manage printer fleets.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'Tuning adjusts rule thresholds and logic to reduce noise without sacrificing the ability to detect real threats.',
+  },
+  {
+    id: 'cysa-so-252',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Security Operations',
+    objective: 'Recognize the importance of security operations data quality monitoring.',
+    difficulty: 'Medium',
+    prompt:
+      'Why is monitoring data quality important for security operations?',
+    choices: [
+      { id: 'a', text: 'Poor data quality leads to missed detections and unreliable investigations.' },
+      { id: 'b', text: 'It reduces the number of computers.' },
+      { id: 'c', text: 'It increases monitor brightness.' },
+      { id: 'd', text: 'To manage printer fleets.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'Incomplete or malformed logs create blind spots; monitoring data quality ensures that detections and investigations have reliable data.',
+  },
+  {
+    id: 'cysa-so-253',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Security Operations',
+    objective: 'Select the best approach for detecting malicious PowerShell profile modifications.',
+    difficulty: 'Hard',
+    prompt:
+      'An attacker modifies PowerShell profiles to execute code automatically. Which detection approach is most effective?',
+    choices: [
+      { id: 'a', text: 'Monitoring PowerShell profile modifications and correlating with script execution.' },
+      { id: 'b', text: 'Signature-based antivirus alone.' },
+      { id: 'c', text: 'Disabling all logging.' },
+      { id: 'd', text: 'Blocking all email.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'PowerShell profile modifications create persistence; monitoring profile changes and correlating with script execution reveals the automatic execution.',
+  },
+  {
+    id: 'cysa-so-254',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Security Operations',
+    objective: 'Identify the purpose of a security operations detection retirement process.',
+    difficulty: 'Medium',
+    prompt:
+    'Why should detection rules be retired systematically?',
+    choices: [
+      { id: 'a', text: 'To remove outdated rules that no longer apply and reduce maintenance burden.' },
+      { id: 'b', text: 'To reduce the number of computers.' },
+      { id: 'c', text: 'To increase monitor brightness.' },
+      { id: 'd', text: 'To manage printer fleets.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'Retiring outdated rules reduces maintenance burden and prevents confusion ensuring that the detection library remains relevant and manageable.',
+  },
+  {
+    id: 'cysa-so-255',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Security Operations',
+    objective: 'Determine the best approach for securing cloud function triggers.',
+    difficulty: 'Medium',
+    prompt:
+      'Which approach best secures cloud function triggers against abuse?',
+    choices: [
+      { id: 'a', text: 'Rate limiting combined with authentication and input validation.' },
+      { id: 'b', text: 'A longer function name.' },
+      { id: 'c', text: 'A faster processor.' },
+      { id: 'd', text: 'A larger monitor.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'Cloud function triggers require rate limiting to prevent abuse authentication to control access and input validation to prevent injection attacks.',
+  },
+  {
+    id: 'cysa-so-256',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Security Operations',
+    objective: 'Select appropriate controls for detecting malicious browser extension installation.',
+    difficulty: 'Hard',
+    prompt:
+      'An attacker distributes malicious browser extensions to steal session data. Which detection approach is most effective?',
+    choices: [
+      { id: 'a', text: 'Monitoring browser extension installations and correlating with network connections to suspicious domains.' },
+      { id: 'b', text: 'Signature-based antivirus alone.' },
+      { id: 'c', text: 'Disabling all logging.' },
+      { id: 'd', text: 'Blocking all email.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'Malicious extensions communicate with C2 servers; monitoring installations and correlating with network connections reveals the data theft.',
+  },
+  {
+    id: 'cysa-so-257',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Security Operations',
+    objective: 'Identify the purpose of a security operations detection testing program.',
+    difficulty: 'Medium',
+    prompt:
+      'What is the primary purpose of regularly testing detection rules?',
+    choices: [
+      { id: 'a', text: 'To ensure rules continue to detect threats as environments and threats evolve.' },
+      { id: 'b', text: 'To reduce the number of computers.' },
+      { id: 'c', text: 'To increase monitor brightness.' },
+      { id: 'd', text: 'To manage printer fleets.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'Regular testing ensures that detection rules remain effective as the environment changes and new threats emerge preventing silent failures.',
+  },
+  {
+    id: 'cysa-so-258',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Security Operations',
+    objective: 'Recognize the risk of unmonitored API key usage.',
+    difficulty: 'Medium',
+    prompt:
+      'An API key begins being used from unexpected locations. Why is this concerning?',
+    choices: [
+      { id: 'a', text: 'API keys can be stolen and used to access resources without user interaction.' },
+      { id: 'b', text: 'It improves API performance.' },
+      { id: 'c', text: 'Printer queues become shorter.' },
+      { id: 'd', text: 'Keyboard life increases.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'API keys provide direct access to resources; unexpected usage locations indicate the key may be stolen and used by an attacker.',
+  },
 ]
