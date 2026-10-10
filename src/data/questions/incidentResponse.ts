@@ -1048,4 +1048,764 @@ export const incidentResponseQuestions: TrainingQuestion[] = [
     explanation:
       'A decision matrix guides responders in selecting the most appropriate containment action based on the incident type, severity, and business impact.',
   },
+  {
+    id: 'cysa-ir-061',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Incident Response and Management',
+    objective: 'Select appropriate actions for responding to a compromised certificate authority.',
+    difficulty: 'Hard',
+    prompt:
+      'An intermediate certificate authority is compromised and used to issue fraudulent certificates. Which action is most critical?',
+    choices: [
+      { id: 'a', text: 'Revoke the intermediate CA certificate, identify all issued certificates, and reissue from a clean CA.' },
+      { id: 'b', text: 'Continue using existing certificates and monitor for abuse.' },
+      { id: 'c', text: 'Disable all TLS in the organization.' },
+      { id: 'd', text: 'Issue a public statement about the compromise.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'Revoking the intermediate CA invalidates all certificates it issued, and reissuing from a clean CA is essential to restore trust in the PKI.',
+  },
+  {
+    id: 'cysa-ir-062',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Incident Response and Management',
+    objective: 'Identify the purpose of an incident response evidence storage and retention policy.',
+    difficulty: 'Medium',
+    prompt:
+      'What does an evidence storage and retention policy primarily define?',
+    choices: [
+      { id: 'a', text: 'How long evidence should be retained and how it should be securely stored.' },
+      { id: 'b', text: 'Which forensic tools to use.' },
+      { id: 'c', text: 'How to communicate with the media during an incident.' },
+      { id: 'd', text: 'The budget for incident response activities.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'The policy defines retention periods to meet legal and regulatory requirements and secure storage methods to preserve evidence integrity.',
+  },
+  {
+    id: 'cysa-ir-063',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Incident Response and Management',
+    objective: 'Determine the best approach for handling a compromised privileged access management system.',
+    difficulty: 'Hard',
+    prompt:
+      'A privileged access management (PAM) system is confirmed compromised. Which action is most critical?',
+    choices: [
+      { id: 'a', text: 'Isolate the PAM system, reset all managed credentials, and audit all sessions recorded by the PAM.' },
+      { id: 'b', text: 'Disable all privileged access permanently.' },
+      { id: 'c', text: 'Ignore the compromise if privileged access is functioning normally.' },
+      { id: 'd', text: 'Shut down all systems managed by the PAM.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'A compromised PAM system exposes all managed credentials; isolating it, resetting credentials, and auditing sessions reveals what access the attacker obtained.',
+  },
+  {
+    id: 'cysa-ir-064',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Incident Response and Management',
+    objective: 'Select appropriate indicators for detecting malicious PowerShell remoting.',
+    difficulty: 'Medium',
+    prompt: 'Which two indicators most strongly suggest malicious PowerShell remoting activity?',
+    choices: [
+      { id: 'a', text: 'WinRM connections from unusual workstations and PowerShell processes with encoded commands.' },
+      { id: 'b', text: 'High network bandwidth usage and slow application performance.' },
+      { id: 'c', text: 'Frequent password changes and help desk calls about locked accounts.' },
+      { id: 'd', text: 'Printer queue backups and email delivery delays.' },
+    ],
+    correct: ['a', 'b'],
+    multiSelect: true,
+    explanation:
+      'Malicious PowerShell remoting produces WinRM connections from unexpected sources and encoded commands, visible in PowerShell and network logs.',
+  },
+  {
+    id: 'cysa-ir-065',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Incident Response and Management',
+    objective: 'Identify the purpose of an incident response communication with legal counsel.',
+    difficulty: 'Medium',
+    prompt:
+      'Why is involving legal counsel early in a significant incident important?',
+    choices: [
+      { id: 'a', text: 'To ensure compliance with regulatory notification requirements and protect privileged communications.' },
+      { id: 'b', text: 'To delay incident response activities.' },
+      { id: 'c', text: 'To avoid involving law enforcement.' },
+      { id: 'd', text: 'To minimize the technical investigation.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'Legal counsel ensures regulatory notification obligations are met and that investigation activities are conducted in a way that preserves legal options.',
+  },
+  {
+    id: 'cysa-ir-066',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Incident Response and Management',
+    objective: 'Select appropriate actions for responding to a compromised network device.',
+    difficulty: 'Medium',
+    prompt:
+      'A network switch is confirmed compromised. Which action is most critical?',
+    choices: [
+      { id: 'a', text: 'Isolate the device, reset its configuration, and review all configuration changes made by the attacker.' },
+      { id: 'b', text: 'Reboot the device and monitor for continued issues.' },
+      { id: 'c', text: 'Ignore the compromise if network traffic is flowing normally.' },
+      { id: 'd', text: 'Shut down the entire network.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'Isolating the device stops attacker access, resetting removes malicious configuration, and reviewing changes reveals what the attacker modified.',
+  },
+  {
+    id: 'cysa-ir-067',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Incident Response and Management',
+    objective: 'Identify the purpose of an incident response evidence analysis methodology.',
+    difficulty: 'Medium',
+    prompt:
+      'What is the primary purpose of following a structured evidence analysis methodology?',
+    choices: [
+      { id: 'a', text: 'To ensure analysis is thorough, repeatable, and defensible.' },
+      { id: 'b', text: 'To speed up the investigation process.' },
+      { id: 'c', text: 'To reduce the storage space required for evidence.' },
+      { id: 'd', text: 'To automate incident response actions.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'A structured methodology ensures that analysis is comprehensive, repeatable, and defensible in legal proceedings.',
+  },
+  {
+    id: 'cysa-ir-068',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Incident Response and Management',
+    objective: 'Determine the best approach for handling a compromised cloud identity provider.',
+    difficulty: 'Hard',
+    prompt:
+      'A cloud identity provider integrated with corporate SSO is confirmed compromised. Which action is most critical?',
+    choices: [
+      { id: 'a', text: 'Disable the SSO integration, reset all federated credentials, and audit all authentication events.' },
+      { id: 'b', text: 'Disable all cloud services permanently.' },
+      { id: 'c', text: 'Ignore the compromise if authentication is functioning normally.' },
+      { id: 'd', text: 'Shut down the entire corporate network.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'A compromised identity provider undermines all federated authentication; disabling the integration, resetting credentials, and auditing events is essential.',
+  },
+  {
+    id: 'cysa-ir-069',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Incident Response and Management',
+    objective: 'Select appropriate indicators for detecting malicious registry modifications.',
+    difficulty: 'Medium',
+    prompt: 'Which two indicators most strongly suggest malicious registry modifications?',
+    choices: [
+      { id: 'a', text: 'Registry run key modifications and service registry entries pointing to user-writable directories.' },
+      { id: 'b', text: 'High CPU usage during business hours and frequent software updates.' },
+      { id: 'c', text: 'Failed login attempts and password reset requests.' },
+      { id: 'd', text: 'Printer queue backups and email delivery delays.' },
+    ],
+    correct: ['a', 'b'],
+    multiSelect: true,
+    explanation:
+      'Malicious registry modifications target run keys and service entries for persistence, pointing to user-writable directories to evade detection.',
+  },
+  {
+    id: 'cysa-ir-070',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Incident Response and Management',
+    objective: 'Identify the purpose of an incident response evidence correlation process.',
+    difficulty: 'Medium',
+    prompt:
+      'What is the primary purpose of correlating evidence from multiple sources?',
+    choices: [
+      { id: 'a', text: 'To build a complete picture of the incident from different perspectives.' },
+      { id: 'b', text: 'To reduce the storage space required for evidence.' },
+      { id: 'c', text: 'To speed up the investigation process.' },
+      { id: 'd', text: 'To automate incident response actions.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'Correlating endpoint, network, and identity logs builds a complete timeline and reveals relationships that no single source would show alone.',
+  },
+  {
+    id: 'cysa-ir-071',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Incident Response and Management',
+    objective: 'Select appropriate actions for responding to a compromised DNS server.',
+    difficulty: 'Medium',
+    prompt:
+      'A DNS server is confirmed compromised and modifying DNS records. Which action is most critical?',
+    choices: [
+      { id: 'a', text: 'Isolate the server, reset DNS configurations, and audit all DNS record changes.' },
+      { id: 'b', text: 'Reboot the server and monitor for continued issues.' },
+      { id: 'c', text: 'Ignore the compromise if DNS resolution is functioning normally.' },
+      { id: 'd', text: 'Shut down the entire network.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'Isolating the server stops malicious DNS modifications, resetting removes attacker changes, and auditing reveals what records were modified and for what purpose.',
+  },
+  {
+    id: 'cysa-ir-072',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Incident Response and Management',
+    objective: 'Identify the purpose of an incident response lessons learned action items tracking.',
+    difficulty: 'Medium',
+    prompt:
+      'Why is it important to track action items from lessons learned to completion?',
+    choices: [
+      { id: 'a', text: 'To ensure that improvements are actually implemented and not forgotten.' },
+      { id: 'b', text: 'To assign blame for failures.' },
+      { id: 'c', text: 'To reduce the number of future incidents.' },
+      { id: 'd', text: 'To satisfy audit requirements.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'Tracking action items ensures that lessons learned result in actual improvements rather than being documented and forgotten.',
+  },
+  {
+    id: 'cysa-ir-073',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Incident Response and Management',
+    objective: 'Determine the best approach for handling a compromised mobile device management system.',
+    difficulty: 'Hard',
+    prompt:
+      'A mobile device management (MDM) system is confirmed compromised. Which action is most critical?',
+    choices: [
+      { id: 'a', text: 'Isolate the MDM, revoke all managed device configurations, and audit all commands sent to devices.' },
+      { id: 'b', text: 'Disable all mobile devices permanently.' },
+      { id: 'c', text: 'Ignore the compromise if devices are functioning normally.' },
+      { id: 'd', text: 'Shut down the entire corporate network.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'A compromised MDM can push malicious configurations to all managed devices; isolating it, revoking configurations, and auditing commands is essential.',
+  },
+  {
+    id: 'cysa-ir-074',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Incident Response and Management',
+    objective: 'Select appropriate indicators for detecting malicious WMI activity.',
+    difficulty: 'Medium',
+    prompt: 'Which two indicators most strongly suggest malicious WMI activity?',
+    choices: [
+      { id: 'a', text: 'WMI process creation events and WMI event subscriptions with unusual names.' },
+      { id: 'b', text: 'High network bandwidth usage and slow application performance.' },
+      { id: 'c', text: 'Frequent password changes and help desk calls about locked accounts.' },
+      { id: 'd', text: 'Printer queue backups and email delivery delays.' },
+    ],
+    correct: ['a', 'b'],
+    multiSelect: true,
+    explanation:
+      'Malicious WMI activity creates processes and event subscriptions with unusual names, visible in endpoint detection and response telemetry.',
+  },
+  {
+    id: 'cysa-ir-075',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Incident Response and Management',
+    objective: 'Identify the purpose of an incident response evidence presentation process.',
+    difficulty: 'Medium',
+    prompt:
+      'What is the primary purpose of presenting incident findings clearly?',
+    choices: [
+      { id: 'a', text: 'To enable stakeholders to understand the incident and make informed decisions.' },
+      { id: 'b', text: 'To demonstrate technical expertise.' },
+      { id: 'c', text: 'To delay remediation efforts.' },
+      { id: 'd', text: 'To satisfy legal discovery requirements.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'Clear presentation enables stakeholders who are not technical to understand the incident, its impact, and the rationale for response decisions.',
+  },
+  {
+    id: 'cysa-ir-076',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Incident Response and Management',
+    objective: 'Select appropriate actions for responding to a compromised backup system.',
+    difficulty: 'Hard',
+    prompt:
+      'A backup system is confirmed compromised and backups are suspected of containing malware. Which action is most critical?',
+    choices: [
+      { id: 'a', text: 'Isolate the backup system, verify backup integrity, and rebuild from a known-clean state.' },
+      { id: 'b', text: 'Delete all backups permanently.' },
+      { id: 'c', text: 'Ignore the compromise and continue using existing backups.' },
+      { id: 'd', text: 'Shut down all production systems.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'A compromised backup system can reinfect recovered environments; isolating it, verifying integrity, and rebuilding from a known-clean state is essential.',
+  },
+  {
+    id: 'cysa-ir-077',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Incident Response and Management',
+    objective: 'Identify the purpose of an incident response team role definitions.',
+    difficulty: 'Easy',
+    prompt:
+      'What is the primary purpose of defining incident response team roles clearly?',
+    choices: [
+      { id: 'a', text: 'To ensure everyone knows their responsibilities and response is coordinated.' },
+      { id: 'b', text: 'To reduce the number of team members.' },
+      { id: 'c', text: 'To eliminate the need for training.' },
+      { id: 'd', text: 'To assign blame during incidents.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'Clear role definitions ensure that everyone knows what they are responsible for, enabling a coordinated and efficient response during high-pressure incidents.',
+  },
+  {
+    id: 'cysa-ir-078',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Incident Response and Management',
+    objective: 'Determine the best approach for handling a compromised remote access tool.',
+    difficulty: 'Medium',
+    prompt:
+      'A remote access tool used by IT staff is confirmed compromised. Which action is most critical?',
+    choices: [
+      { id: 'a', text: 'Disable the tool, reset all credentials, and audit all sessions conducted through the tool.' },
+      { id: 'b', text: 'Disable all remote access permanently.' },
+      { id: 'c', text: 'Ignore the compromise if remote access is functioning normally.' },
+      { id: 'd', text: 'Shut down all managed systems.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'A compromised remote access tool provides direct system access to attackers; disabling it, resetting credentials, and auditing sessions is essential.',
+  },
+  {
+    id: 'cysa-ir-079',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Incident Response and Management',
+    objective: 'Select appropriate indicators for detecting malicious scheduled task creation.',
+    difficulty: 'Medium',
+    prompt: 'Which two indicators most strongly suggest malicious scheduled task creation?',
+    choices: [
+      { id: 'a', text: 'Scheduled tasks with random names and tasks executing from temporary directories.' },
+      { id: 'b', text: 'High CPU usage during business hours and frequent software updates.' },
+      { id: 'c', text: 'Failed login attempts and password reset requests.' },
+      { id: 'd', text: 'Printer queue backups and email delivery delays.' },
+    ],
+    correct: ['a', 'b'],
+    multiSelect: true,
+    explanation:
+      'Malicious scheduled tasks often have random names and execute from temporary directories, visible in scheduled task creation logs.',
+  },
+  {
+    id: 'cysa-ir-080',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Incident Response and Management',
+    objective: 'Identify the purpose of an incident response evidence integrity verification process.',
+    difficulty: 'Medium',
+    prompt:
+      'What is the primary purpose of verifying evidence integrity through hashing?',
+    choices: [
+      { id: 'a', text: 'To prove that evidence has not been altered since collection.' },
+      { id: 'b', text: 'To reduce the storage space required for evidence.' },
+      { id: 'c', text: 'To speed up the investigation process.' },
+      { id: 'd', text: 'To automate incident response actions.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'Cryptographic hashing proves that evidence is identical to what was collected, demonstrating that it has not been altered and maintaining its credibility.',
+  },
+  {
+    id: 'cysa-ir-081',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Incident Response and Management',
+    objective: 'Select appropriate actions for responding to a compromised email security gateway.',
+    difficulty: 'Medium',
+    prompt:
+      'An email security gateway is confirmed compromised and allowing malicious emails through. Which action is most critical?',
+    choices: [
+      { id: 'a', text: 'Isolate the gateway, update filtering rules, and identify all malicious emails that bypassed filtering.' },
+      { id: 'b', text: 'Disable all email services permanently.' },
+      { id: 'c', text: 'Ignore the compromise and continue normal operations.' },
+      { id: 'd', text: 'Shut down the entire network.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'Isolating the gateway stops malicious email delivery, updating rules restores protection, and identifying bypassed emails reveals what threats reached users.',
+  },
+  {
+    id: 'cysa-ir-082',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Incident Response and Management',
+    objective: 'Identify the purpose of an incident response communication with executives.',
+    difficulty: 'Medium',
+    prompt:
+      'Why is it important to keep executives informed during a significant incident?',
+    choices: [
+      { id: 'a', text: 'To ensure they can make informed business decisions and allocate resources.' },
+      { id: 'b', text: 'To delay incident response activities.' },
+      { id: 'c', text: 'To avoid involving technical staff.' },
+      { id: 'd', text: 'To minimize the need for technical investigation.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'Executives need accurate incident information to make business decisions about operations, communications, and resource allocation.',
+  },
+  {
+    id: 'cysa-ir-083',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Incident Response and Management',
+    objective: 'Determine the best approach for handling a compromised API gateway.',
+    difficulty: 'Medium',
+    prompt:
+      'An API gateway is confirmed compromised and attacker is abusing API endpoints. Which action is most critical?',
+    choices: [
+      { id: 'a', text: 'Isolate the gateway, revoke all API keys, and audit all API requests for abuse.' },
+      { id: 'b', text: 'Disable all APIs permanently.' },
+      { id: 'c', text: 'Ignore the compromise if APIs are functioning normally.' },
+      { id: 'd', text: 'Shut down all backend services.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'Isolating the gateway stops API abuse, revoking keys prevents continued unauthorized access, and auditing requests reveals what data was accessed or modified.',
+  },
+  {
+    id: 'cysa-ir-084',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Incident Response and Management',
+    objective: 'Select appropriate indicators for detecting malicious service installation.',
+    difficulty: 'Medium',
+    prompt: 'Which two indicators most strongly suggest malicious service installation?',
+    choices: [
+      { id: 'a', text: 'New services with random names and services pointing to user-writable directories.' },
+      { id: 'b', text: 'High network bandwidth usage and slow application performance.' },
+      { id: 'c', text: 'Frequent password changes and help desk calls about locked accounts.' },
+      { id: 'd', text: 'Printer queue backups and email delivery delays.' },
+    ],
+    correct: ['a', 'b'],
+    multiSelect: true,
+    explanation:
+      'Malicious services often have random names and point to user-writable directories, visible in service creation and configuration logs.',
+  },
+  {
+    id: 'cysa-ir-085',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Incident Response and Management',
+    objective: 'Identify the purpose of an incident response coordination with cybersecurity insurance.',
+    difficulty: 'Medium',
+    prompt:
+      'Why is it important to notify cybersecurity insurance early in a significant incident?',
+    choices: [
+      { id: 'a', text: 'To ensure coverage requirements are met and approved vendors can be engaged.' },
+      { id: 'b', text: 'To delay incident response activities.' },
+      { id: 'c', text: 'To avoid involving legal counsel.' },
+      { id: 'd', text: 'To minimize the technical investigation.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'Cybersecurity insurance policies often have specific notification requirements and approved vendor lists that must be followed to maintain coverage.',
+  },
+  {
+    id: 'cysa-ir-086',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Incident Response and Management',
+    objective: 'Select appropriate actions for responding to a compromised web application firewall.',
+    difficulty: 'Hard',
+    prompt:
+      'A WAF is confirmed compromised and its rules have been modified to allow attacks. Which action is most critical?',
+    choices: [
+      { id: 'a', text: 'Isolate the WAF, restore rules from a known-good backup, and audit all rule changes.' },
+      { id: 'b', text: 'Disable all web applications permanently.' },
+      { id: 'c', text: 'Ignore the compromise if web applications are functioning normally.' },
+      { id: 'd', text: 'Shut down the entire network.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'Isolating the WAF stops attacker rule modifications, restoring from backup removes malicious changes, and auditing reveals what rules were modified and why.',
+  },
+  {
+    id: 'cysa-ir-087',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Incident Response and Management',
+    objective: 'Identify the purpose of an incident response evidence chain of custody documentation.',
+    difficulty: 'Medium',
+    prompt:
+      'What does chain of custody documentation primarily prove?',
+    choices: [
+      { id: 'a', text: 'That evidence has been properly handled and its integrity maintained.' },
+      { id: 'b', text: 'That the investigation was completed quickly.' },
+      { id: 'c', text: 'That the attacker has been identified.' },
+      { id: 'd', text: 'That all vulnerabilities have been remediated.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'Chain of custody documentation proves that evidence was properly collected, stored, and handled, maintaining its integrity and admissibility.',
+  },
+  {
+    id: 'cysa-ir-088',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Incident Response and Management',
+    objective: 'Determine the best approach for handling a compromised single sign-on system.',
+    difficulty: 'Hard',
+    prompt:
+      'An SSO system is confirmed compromised and attacker is issuing fraudulent tokens. Which action is most critical?',
+    choices: [
+      { id: 'a', text: 'Disable the SSO system, invalidate all active tokens, and reset all federated application credentials.' },
+      { id: 'b', text: 'Disable all authentication permanently.' },
+      { id: 'c', text: 'Ignore the compromise if authentication is functioning normally.' },
+      { id: 'd', text: 'Shut down all applications.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'A compromised SSO system undermines all connected applications; disabling it, invalidating tokens, and resetting credentials is essential to stop the attacker.',
+  },
+  {
+    id: 'cysa-ir-089',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Incident Response and Management',
+    objective: 'Select appropriate indicators for detecting malicious COM object hijacking.',
+    difficulty: 'Medium',
+    prompt: 'Which two indicators most strongly suggest malicious COM object hijacking?',
+    choices: [
+      { id: 'a', text: 'COM registry entries pointing to user-writable directories and processes loading unexpected DLLs.' },
+      { id: 'b', text: 'High network bandwidth usage and slow application performance.' },
+      { id: 'c', text: 'Frequent password changes and help desk calls about locked accounts.' },
+      { id: 'd', text: 'Printer queue backups and email delivery delays.' },
+    ],
+    correct: ['a', 'b'],
+    multiSelect: true,
+    explanation:
+      'COM hijacking redirects registry entries to malicious DLLs in user-writable directories, visible in registry and process monitoring.',
+  },
+  {
+    id: 'cysa-ir-090',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Incident Response and Management',
+    objective: 'Identify the purpose of an incident response recovery validation checklist.',
+    difficulty: 'Medium',
+    prompt:
+      'What is the primary purpose of a recovery validation checklist?',
+    choices: [
+      { id: 'a', text: 'To ensure all systems are fully operational and threats are eliminated before resuming normal operations.' },
+      { id: 'b', text: 'To speed up the recovery process.' },
+      { id: 'c', text: 'To reduce the cost of the incident.' },
+      { id: 'd', text: 'To satisfy audit requirements.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'A recovery validation checklist ensures that all systems are verified as clean and functional before normal operations resume, preventing reinfection.',
+  },
+  {
+    id: 'cysa-ir-091',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Incident Response and Management',
+    objective: 'Select appropriate actions for responding to a compromised network monitoring system.',
+    difficulty: 'Medium',
+    prompt:
+      'A network monitoring system is confirmed compromised and alert data is being suppressed. Which action is most critical?',
+    choices: [
+      { id: 'a', text: 'Isolate the monitoring system, verify alert integrity, and investigate what alerts were suppressed.' },
+      { id: 'b', text: 'Disable all monitoring permanently.' },
+      { id: 'c', text: 'Ignore the compromise if monitoring appears to be functioning normally.' },
+      { id: 'd', text: 'Shut down the entire network.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'A compromised monitoring system hides attacker activity; isolating it, verifying alert integrity, and investigating suppressed alerts is essential.',
+  },
+  {
+    id: 'cysa-ir-092',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Incident Response and Management',
+    objective: 'Identify the purpose of an incident response post-incident review process.',
+    difficulty: 'Medium',
+    prompt:
+      'What is the primary purpose of a post-incident review?',
+    choices: [
+      { id: 'a', text: 'To identify systemic improvements and prevent similar incidents.' },
+      { id: 'b', text: 'To assign blame to individuals.' },
+      { id: 'c', text: 'To delete all incident documentation.' },
+      { id: 'd', text: 'To celebrate the end of the incident.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'Post-incident reviews focus on systemic improvements to processes, tools, and training rather than individual blame.',
+  },
+  {
+    id: 'cysa-ir-093',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Incident Response and Management',
+    objective: 'Determine the best approach for handling a compromised container orchestration platform.',
+    difficulty: 'Hard',
+    prompt:
+      'A Kubernetes cluster is confirmed compromised. Which action is most critical?',
+    choices: [
+      { id: 'a', text: 'Isolate the cluster, rotate all API credentials, and audit all RBAC changes and pod creations.' },
+      { id: 'b', text: 'Disable all containers permanently.' },
+      { id: 'c', text: 'Ignore the compromise if workloads are functioning normally.' },
+      { id: 'd', text: 'Shut down all physical servers.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'A compromised Kubernetes cluster controls all workloads; isolating it, rotating credentials, and auditing RBAC and pod changes is essential.',
+  },
+  {
+    id: 'cysa-ir-094',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Incident Response and Management',
+    objective: 'Select appropriate indicators for detecting malicious DLL injection.',
+    difficulty: 'Medium',
+    prompt: 'Which two indicators most strongly suggest malicious DLL injection?',
+    choices: [
+      { id: 'a', text: 'Processes loading unsigned DLLs from unusual paths and unexpected remote thread creation.' },
+      { id: 'b', text: 'High network bandwidth usage and slow application performance.' },
+      { id: 'c', text: 'Frequent password changes and help desk calls about locked accounts.' },
+      { id: 'd', text: 'Printer queue backups and email delivery delays.' },
+    ],
+    correct: ['a', 'b'],
+    multiSelect: true,
+    explanation:
+      'DLL injection loads unsigned DLLs from unusual paths and creates unexpected remote threads, visible in endpoint detection and response telemetry.',
+  },
+  {
+    id: 'cysa-ir-095',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Incident Response and Management',
+    objective: 'Identify the purpose of an incident response coordination with human resources.',
+    difficulty: 'Medium',
+    prompt:
+      'When is it important to involve human resources in incident response?',
+    choices: [
+      { id: 'a', text: 'When the incident involves employee misconduct or insider threats.' },
+      { id: 'b', text: 'For every security alert.' },
+      { id: 'c', text: 'Only after law enforcement is involved.' },
+      { id: 'd', text: 'Never; HR should not be involved in security incidents.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'HR involvement is critical when incidents involve employee misconduct or insider threats, as they handle employment law, disciplinary actions, and employee rights.',
+  },
+  {
+    id: 'cysa-ir-096',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Incident Response and Management',
+    objective: 'Select appropriate actions for responding to a compromised identity provider.',
+    difficulty: 'Medium',
+    prompt:
+      'An identity provider is confirmed compromised and user accounts are being created without authorization. Which action is most critical?',
+    choices: [
+      { id: 'a', text: 'Isolate the IdP, disable new account creation, and audit all account and permission changes.' },
+      { id: 'b', text: 'Disable all identity services permanently.' },
+      { id: 'c', text: 'Ignore the compromise if authentication is functioning normally.' },
+      { id: 'd', text: 'Shut down all applications.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'Isolating the IdP stops unauthorized account creation, and auditing changes reveals what accounts and permissions the attacker created or modified.',
+  },
+  {
+    id: 'cysa-ir-097',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Incident Response and Management',
+    objective: 'Identify the purpose of an incident response evidence analysis report format.',
+    difficulty: 'Medium',
+    prompt:
+      'What does a well-structured incident evidence analysis report include?',
+    choices: [
+      { id: 'a', text: 'Executive summary, technical details, timeline, and recommendations.' },
+      { id: 'b', text: 'Only raw log data.' },
+      { id: 'c', text: 'Only the names of affected systems.' },
+      { id: 'd', text: 'Only the financial cost of the incident.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'A comprehensive report includes an executive summary for leadership, technical details for analysts, a timeline for understanding, and recommendations for improvement.',
+  },
+  {
+    id: 'cysa-ir-098',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Incident Response and Management',
+    objective: 'Determine the best approach for handling a compromised privileged user workstation.',
+    difficulty: 'Hard',
+    prompt:
+      'A domain administrator workstation is confirmed compromised. Which action is most critical?',
+    choices: [
+      { id: 'a', text: 'Isolate the workstation, reset all privileged credentials used on it, and audit all privileged actions performed from it.' },
+      { id: 'b', text: 'Disable all domain administrator accounts.' },
+      { id: 'c', text: 'Ignore the compromise if the administrator can still log in.' },
+      { id: 'd', text: 'Shut down the entire domain.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'A compromised admin workstation may have exposed all privileged credentials; isolating it, resetting credentials, and auditing actions is essential.',
+  },
+  {
+    id: 'cysa-ir-099',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Incident Response and Management',
+    objective: 'Select appropriate indicators for detecting malicious browser extension installation.',
+    difficulty: 'Medium',
+    prompt: 'Which two indicators most strongly suggest malicious browser extension installation?',
+    choices: [
+      { id: 'a', text: 'Extensions installed from unofficial sources and extensions with excessive permissions.' },
+      { id: 'b', text: 'High network bandwidth usage and slow browser performance.' },
+      { id: 'c', text: 'Frequent password changes and help desk calls about locked accounts.' },
+      { id: 'd', text: 'Printer queue backups and email delivery delays.' },
+    ],
+    correct: ['a', 'b'],
+    multiSelect: true,
+    explanation:
+      'Malicious extensions are often installed from unofficial sources and request excessive permissions, visible in browser and endpoint monitoring.',
+  },
+  {
+    id: 'cysa-ir-100',
+    certification: 'CySA+',
+    examVersion: 'CS0-003',
+    domain: 'Incident Response and Management',
+    objective: 'Identify the purpose of an incident response evidence retention schedule.',
+    difficulty: 'Medium',
+    prompt:
+      'What is the primary purpose of an evidence retention schedule?',
+    choices: [
+      { id: 'a', text: 'To define how long different types of evidence should be retained based on legal and regulatory requirements.' },
+      { id: 'b', text: 'To reduce storage costs.' },
+      { id: 'c', text: 'To speed up the investigation process.' },
+      { id: 'd', text: 'To automate incident response actions.' },
+    ],
+    correct: ['a'],
+    explanation:
+      'A retention schedule defines how long each type of evidence should be kept to meet legal, regulatory, and organizational requirements.',
+  },
 ]
