@@ -16,7 +16,7 @@ import {
 } from 'lucide-react'
 import SiemPbq from './components/SiemPbq'
 import VulnPbq from './components/VulnPbq'
-import { cysaDomains, questionBank } from './data/questionBank'
+import { cysaDomains, questionBank } from './data/questions'
 
 type StudyStats = {
   questionsAnswered: number
