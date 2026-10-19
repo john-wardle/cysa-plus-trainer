@@ -7,6 +7,7 @@ import {
   ChevronRight,
   CircleHelp,
   Clock3,
+  MessageCircle,
   Play,
   RotateCcw,
   ShieldCheck,
@@ -15,6 +16,7 @@ import {
   XCircle,
 } from 'lucide-react'
 import PbqRunner from './components/PbqRunner'
+import TutorPanel from './components/TutorPanel'
 import { pbqScenarios } from './data/pbqScenarios'
 import { cysaDomains, pentestDomains, questionBank } from './data/questions'
 import type { Certification } from './data/questionBank'
@@ -79,6 +81,34 @@ function App() {
   const [secondsRemaining, setSecondsRemaining] = useState(20 * 60)
   const [studyStats, setStudyStats] = useState<StudyStats>(() => loadStudyStats('CySA+'))
   const [confirmReset, setConfirmReset] = useState(false)
+
+  useEffect(() => {
+    const sessionToken = new URLSearchParams(window.location.search).get('session')
+    if (!sessionToken) return undefined
+
+    const heartbeat = () => {
+      void fetch('/api/session/heartbeat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token: sessionToken }),
+      }).catch(() => {})
+    }
+
+    const closeSession = () => {
+      const body = new Blob([JSON.stringify({ token: sessionToken })], { type: 'application/json' })
+      navigator.sendBeacon('/api/session/close', body)
+    }
+
+    heartbeat()
+    const timer = window.setInterval(heartbeat, 5_000)
+    window.addEventListener('pagehide', closeSession)
+
+    return () => {
+      window.clearInterval(timer)
+      window.removeEventListener('pagehide', closeSession)
+      closeSession()
+    }
+  }, [])
 
   const examVersion = selectedCertification === 'CySA+' ? 'CS0-003' : 'PT0-002'
   const domains = selectedCertification === 'CySA+' ? cysaDomains : pentestDomains
@@ -240,6 +270,7 @@ function App() {
   const navigation = [
     { label: 'Dashboard', icon: BarChart3 },
     { label: 'Practice', icon: BookOpen },
+    { label: 'AI Tutor', icon: MessageCircle },
     { label: 'PBQ Labs', icon: BrainCircuit },
     { label: 'Mock Exam', icon: Clock3 },
     { label: 'Progress', icon: Target },
@@ -322,7 +353,9 @@ function App() {
         </aside>
 
         <section className="space-y-8">
-          {activeMode === 'PBQ Labs' ? (
+          {activeMode === 'AI Tutor' ? (
+            <TutorPanel certification={selectedCertification} />
+          ) : activeMode === 'PBQ Labs' ? (
             selectedPbq ? (
               <div className="space-y-4">
                 <button

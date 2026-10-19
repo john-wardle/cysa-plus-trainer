@@ -22,3 +22,12 @@ body {
 button {
   font: inherit;
 }
+
+.tutor-messages {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.tutor-messages::-webkit-scrollbar {
+  display: none;
+}
