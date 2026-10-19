@@ -87,9 +87,8 @@ cleanup_stale_project_processes() {
   done < <(
     ps -eo pid=,pgid=,args= |
       awk -v project="$project_dir" '
-        index($0, project "/node_modules/.bin/vite") ||
-        index($0, "node " project "/server/index.mjs") ||
-        index($0, "npm run api") && index($0, project) {
+        ($3 == "node" || $3 == "/usr/bin/node") &&
+        ($4 == project "/node_modules/.bin/vite" || $4 == project "/server/index.mjs") {
           print $1, $2
         }
       '
