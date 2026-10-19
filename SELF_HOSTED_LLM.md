@@ -64,9 +64,26 @@ inference, configure OpenCode before launching the trainer:
 
 ```bash
 export OPENCODE_API_KEY='your-key'
-export OPENCODE_MODEL='nemotron-3.5-super-vl-free'
+export OPENCODE_API_URL='https://opencode.ai/inference/go/openai/v1/chat/completions'
+export OPENCODE_MODELS_URL='https://opencode.ai/inference/go/v1/models'
+export OPENCODE_MODEL='deepseek-v4.1-flash'
 ./launch-cysa-trainer.sh
 ```
+
+OpenCode Go requires an OpenCode account and an authorized Go/API plan. Some
+free models are restricted to the OpenCode application and may return an
+access or free-tier error through the API. Local Ollama remains available
+without an OpenCode account.
+
+Useful OpenCode pages:
+
+- [Go plan, limits, and Go API endpoints](https://opencode.ai/v2/docs/console/go/)
+- [Inference API authentication and endpoints](https://dev.opencode.ai/v2/docs/console/api/inference)
+- [Console and service-account API keys](https://opencode.ai/console)
+- [OpenAI / ChatGPT API platform](https://platform.openai.com/)
+- [Anthropic API Console](https://console.anthropic.com/)
+- [xAI / Grok API quickstart](https://docs.x.ai/developers/quickstart)
+- [Google Gemini API Studio](https://ai.google.dev/aistudio)
 
 For desktop-launcher use, store the settings in
 `~/.config/cysa-plus-trainer/environment` instead:
@@ -99,6 +116,10 @@ key stays on the server and is never sent to the browser. Hosted mode sends the
 question, conversation, and retrieved trainer context to OpenCode, so do not
 include private or sensitive data. Local Ollama remains the default and keeps
 those requests on the machine.
+
+The provider selector currently supports Local Ollama and Hosted OpenCode Go.
+Other providers require an adapter that implements the provider list, model
+selection, and chat request paths in the API server.
 
 The API listens on `127.0.0.1:8787`. Vite proxies `/api` requests to it. Confirm it is healthy with:
 

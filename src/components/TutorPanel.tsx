@@ -192,6 +192,14 @@ function TutorPanel({ certification }: TutorPanelProps) {
             <option value="ollama">Local Ollama (private)</option>
             <option disabled={!hostedAvailable} value="opencode">Hosted OpenCode (remote){hostedAvailable ? '' : ' — not configured'}</option>
           </select>
+          {!hostedAvailable && <div className="mt-3 rounded-lg border border-amber-400/30 bg-amber-400/10 p-3 text-xs leading-5 text-amber-100">
+            <p className="font-medium text-amber-200">Hosted OpenCode is not configured</p>
+            <p className="mt-1">Create an OpenCode account, subscribe to OpenCode Go or use another authorized API plan, then add your key to <code className="rounded bg-slate-800 px-1.5 py-0.5 text-cyan-200">~/.config/cysa-plus-trainer/environment</code> and restart the trainer.</p>
+            <p className="mt-2 flex flex-wrap gap-x-3 gap-y-1"><a className="text-cyan-300 underline hover:text-cyan-200" href="https://opencode.ai/v2/docs/console/go/" rel="noreferrer" target="_blank">Go plan and limits</a><a className="text-cyan-300 underline hover:text-cyan-200" href="https://dev.opencode.ai/v2/docs/console/api/inference" rel="noreferrer" target="_blank">Inference API</a><a className="text-cyan-300 underline hover:text-cyan-200" href="https://opencode.ai/console" rel="noreferrer" target="_blank">Console and API keys</a></p>
+            <p className="mt-2 text-slate-300">Free models may be limited to the OpenCode application. Local Ollama works without an OpenCode account.</p>
+            <p className="mt-2 text-slate-300">Other provider API pages:</p>
+            <p className="flex flex-wrap gap-x-3 gap-y-1"><a className="text-cyan-300 underline hover:text-cyan-200" href="https://platform.openai.com/" rel="noreferrer" target="_blank">OpenAI / ChatGPT API</a><a className="text-cyan-300 underline hover:text-cyan-200" href="https://console.anthropic.com/" rel="noreferrer" target="_blank">Anthropic API</a><a className="text-cyan-300 underline hover:text-cyan-200" href="https://docs.x.ai/developers/quickstart" rel="noreferrer" target="_blank">xAI / Grok API</a><a className="text-cyan-300 underline hover:text-cyan-200" href="https://ai.google.dev/aistudio" rel="noreferrer" target="_blank">Google Gemini API</a></p>
+          </div>}
           {provider === 'opencode' && <p className="mt-3 rounded-lg border border-amber-400/30 bg-amber-400/10 p-3 text-xs leading-5 text-amber-100">Remote mode sends your question, conversation, and retrieved trainer context to OpenCode. Do not include private or sensitive data.</p>}
           <label className="mt-4 block text-sm font-medium text-slate-200" htmlFor="tutor-model">{provider === 'opencode' ? 'Hosted model' : 'Local model'}</label>
           <select
@@ -213,7 +221,7 @@ function TutorPanel({ certification }: TutorPanelProps) {
             {modelStatus === 'error' && <><span className="size-2 rounded-full bg-rose-400" /><span className="text-rose-300">Model failed to load</span></>}
           </div>
           <p className="mt-3 text-xs leading-5 text-slate-400">
-            {provider === 'opencode' ? 'Hosted models are configured with OPENCODE_MODEL or OPENCODE_MODELS before startup.' : <>Add another local model from a terminal with{' '}<code className="rounded bg-slate-800 px-1.5 py-0.5 text-cyan-200">ollama pull &lt;model-name&gt;</code>, then click Refresh models.</>}
+            {provider === 'opencode' ? 'Hosted models are configured with OPENCODE_MODEL or OPENCODE_MODELS before startup. Free-tier models may not be available through the API.' : <>Add another local model from a terminal with{' '}<code className="rounded bg-slate-800 px-1.5 py-0.5 text-cyan-200">ollama pull &lt;model-name&gt;</code>, then click Refresh models.</>}
           </p>
         </div>
 
