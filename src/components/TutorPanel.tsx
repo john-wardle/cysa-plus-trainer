@@ -13,6 +13,7 @@ type TutorPanelProps = {
 }
 
 type ModelStatus = 'idle' | 'loading' | 'ready' | 'error'
+type TutorProvider = 'ollama' | 'opencode'
 
 const starterQuestions = [
   'Explain how to prioritize a vulnerability when there is an active exploit.',
@@ -25,7 +26,7 @@ async function readJsonResponse(response: Response) {
 
   if (!text.trim()) {
     throw new Error(
-      `The local tutor returned an empty response (HTTP ${response.status}). Start it with ./launch-cysa-trainer.sh, then refresh this page.`,
+      `The tutor returned an empty response (HTTP ${response.status}). Start it with ./launch-cysa-trainer.sh, then refresh this page.`,
     )
   }
 
@@ -33,13 +34,14 @@ async function readJsonResponse(response: Response) {
     return JSON.parse(text) as Record<string, unknown>
   } catch {
     throw new Error(
-      `The local tutor returned an invalid response (HTTP ${response.status}). Restart it with ./launch-cysa-trainer.sh.`,
+      `The tutor returned an invalid response (HTTP ${response.status}). Restart it with ./launch-cysa-trainer.sh.`,
     )
   }
 }
 
 function TutorPanel({ certification }: TutorPanelProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null)
+  const sessionIdRef = useRef(`cysa-plus-trainer-${crypto.randomUUID()}`)
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'assistant',
@@ -50,6 +52,8 @@ function TutorPanel({ certification }: TutorPanelProps) {
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [sources, setSources] = useState<string[]>([])
+  const [provider, setProvider] = useState<TutorProvider>('ollama')
+  const [hostedAvailable, setHostedAvailable] = useState(false)
   const [models, setModels] = useState<string[]>([])
   const [selectedModel, setSelectedModel] = useState('')
   const [modelsLoading, setModelsLoading] = useState(true)
@@ -59,7 +63,7 @@ function TutorPanel({ certification }: TutorPanelProps) {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
   }, [messages, busy])
 
-  async function loadSelectedModel(model: string) {
+  async function loadSelectedModel(model: string, selectedProvider = provider) {
     if (!model) return
 
     setModelStatus('loading')
@@ -68,7 +72,7 @@ function TutorPanel({ certification }: TutorPanelProps) {
       const response = await fetch('/api/model/load', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ model }),
+        body: JSON.stringify({ model, provider: selectedProvider }),
       })
       const payload = await readJsonResponse(response)
       if (!response.ok) throw new Error(String(payload.error ?? 'The selected model could not be loaded.'))
@@ -79,10 +83,10 @@ function TutorPanel({ certification }: TutorPanelProps) {
     }
   }
 
-  async function loadModels() {
+  async function loadModels(selectedProvider = provider) {
     setModelsLoading(true)
     try {
-      const response = await fetch('/api/models')
+      const response = await fetch(`/api/models?provider=${selectedProvider}`)
       const payload = await readJsonResponse(response)
       if (!response.ok) throw new Error(String(payload.error ?? 'Unable to list installed models.'))
       const installedModels = Array.isArray(payload.models) ? payload.models as string[] : []
@@ -90,7 +94,7 @@ function TutorPanel({ certification }: TutorPanelProps) {
       const nextModel = selectedModel && installedModels.includes(selectedModel) ? selectedModel : installedModels[0] ?? ''
       setSelectedModel(nextModel)
       setError(null)
-      void loadSelectedModel(nextModel)
+      void loadSelectedModel(nextModel, selectedProvider)
     } catch (modelError) {
       setError(modelError instanceof Error ? modelError.message : 'Unable to list installed models.')
     } finally {
@@ -99,11 +103,29 @@ function TutorPanel({ certification }: TutorPanelProps) {
   }
 
   useEffect(() => {
-    const timer = window.setTimeout(() => {
-      void loadModels()
+    const timer = window.setTimeout(async () => {
+      try {
+        const response = await fetch('/api/providers')
+        const payload = await readJsonResponse(response)
+        if (!response.ok) throw new Error(String(payload.error ?? 'Unable to list tutor providers.'))
+        const availableProviders = Array.isArray(payload.providers) ? payload.providers as Array<{ id?: unknown; available?: unknown }> : []
+        setHostedAvailable(availableProviders.some((entry) => entry.id === 'opencode' && entry.available === true))
+      } catch (providerError) {
+        setError(providerError instanceof Error ? providerError.message : 'Unable to list tutor providers.')
+      }
+      void loadModels('ollama')
     }, 0)
     return () => window.clearTimeout(timer)
   }, [])
+
+  function changeProvider(nextProvider: TutorProvider) {
+    setProvider(nextProvider)
+    setModels([])
+    setSelectedModel('')
+    setModelStatus('idle')
+    setError(null)
+    void loadModels(nextProvider)
+  }
 
   async function submit(event: FormEvent) {
     event.preventDefault()
@@ -120,7 +142,7 @@ function TutorPanel({ certification }: TutorPanelProps) {
       const response = await fetch('/api/tutor', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ certification, messages: nextMessages, model: selectedModel }),
+        body: JSON.stringify({ certification, messages: nextMessages, model: selectedModel, provider, sessionId: sessionIdRef.current }),
       })
       const payload = await readJsonResponse(response)
       if (!response.ok) throw new Error(String(payload.error ?? 'The local tutor is unavailable.'))
@@ -128,7 +150,7 @@ function TutorPanel({ certification }: TutorPanelProps) {
       setMessages([...nextMessages, { role: 'assistant', content: String(payload.answer ?? 'The local model returned no answer.') }])
       setSources(Array.isArray(payload.sources) ? payload.sources.map((source) => String((source as { id?: unknown }).id ?? 'Unknown source')) : [])
     } catch (submissionError) {
-      setError(submissionError instanceof Error ? submissionError.message : 'The local tutor is unavailable.')
+      setError(submissionError instanceof Error ? submissionError.message : 'The selected tutor is unavailable.')
     } finally {
       setBusy(false)
     }
@@ -137,10 +159,10 @@ function TutorPanel({ certification }: TutorPanelProps) {
   return (
     <div className="w-full min-w-0 space-y-6">
       <div>
-        <p className="mb-2 text-sm font-medium text-cyan-300">LOCAL AI TUTOR</p>
-        <h2 className="text-3xl font-bold tracking-tight">Study with your own model.</h2>
+        <p className="mb-2 text-sm font-medium text-cyan-300">AI TUTOR</p>
+        <h2 className="text-3xl font-bold tracking-tight">Study with the right model for the job.</h2>
         <p className="mt-2 max-w-2xl text-slate-400">
-          Retrieval uses the trainer's local question bank and PBQ material, then sends only the selected context to your self-hosted model.
+          Retrieval uses the trainer's local question bank and PBQ material. Choose private local inference or the faster hosted OpenCode path.
         </p>
       </div>
 
@@ -149,18 +171,29 @@ function TutorPanel({ certification }: TutorPanelProps) {
           <div className="rounded-xl bg-cyan-400/15 p-2 text-cyan-300"><Bot size={22} /></div>
           <div>
             <h3 className="font-semibold">{certification} tutor</h3>
-            <p className="text-xs text-slate-400">Local model · repository-grounded retrieval</p>
+            <p className="text-xs text-slate-400">{provider === 'opencode' ? 'Hosted OpenCode · repository-grounded retrieval' : 'Local Ollama · repository-grounded retrieval'}</p>
           </div>
         </div>
 
         <div className="mb-5 rounded-xl border border-slate-800 bg-slate-950/70 p-4">
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <label className="text-sm font-medium text-slate-200" htmlFor="tutor-model">Local model</label>
+            <label className="text-sm font-medium text-slate-200" htmlFor="tutor-provider">Inference provider</label>
             <button className="inline-flex items-center gap-2 text-xs text-slate-400 transition hover:text-cyan-200 disabled:cursor-not-allowed disabled:opacity-50" disabled={modelsLoading} onClick={() => void loadModels()} type="button">
               <RefreshCw className={modelsLoading ? 'animate-spin' : ''} size={14} />
-              Refresh installed models
+              Refresh models
             </button>
           </div>
+          <select
+            className="mt-3 w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-slate-100 outline-none transition focus:border-cyan-400"
+            id="tutor-provider"
+            onChange={(event) => changeProvider(event.target.value as TutorProvider)}
+            value={provider}
+          >
+            <option value="ollama">Local Ollama (private)</option>
+            <option disabled={!hostedAvailable} value="opencode">Hosted OpenCode (remote){hostedAvailable ? '' : ' — not configured'}</option>
+          </select>
+          {provider === 'opencode' && <p className="mt-3 rounded-lg border border-amber-400/30 bg-amber-400/10 p-3 text-xs leading-5 text-amber-100">Remote mode sends your question, conversation, and retrieved trainer context to OpenCode. Do not include private or sensitive data.</p>}
+          <label className="mt-4 block text-sm font-medium text-slate-200" htmlFor="tutor-model">{provider === 'opencode' ? 'Hosted model' : 'Local model'}</label>
           <select
             className="mt-3 w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-slate-100 outline-none transition focus:border-cyan-400 disabled:cursor-not-allowed disabled:opacity-60"
             disabled={modelsLoading || models.length === 0}
@@ -180,8 +213,7 @@ function TutorPanel({ certification }: TutorPanelProps) {
             {modelStatus === 'error' && <><span className="size-2 rounded-full bg-rose-400" /><span className="text-rose-300">Model failed to load</span></>}
           </div>
           <p className="mt-3 text-xs leading-5 text-slate-400">
-            Add another local model from a terminal with{' '}
-            <code className="rounded bg-slate-800 px-1.5 py-0.5 text-cyan-200">ollama pull &lt;model-name&gt;</code>, then click Refresh installed models.
+            {provider === 'opencode' ? 'Hosted models are configured with OPENCODE_MODEL or OPENCODE_MODELS before startup.' : <>Add another local model from a terminal with{' '}<code className="rounded bg-slate-800 px-1.5 py-0.5 text-cyan-200">ollama pull &lt;model-name&gt;</code>, then click Refresh models.</>}
           </p>
         </div>
 
@@ -193,7 +225,7 @@ function TutorPanel({ certification }: TutorPanelProps) {
               </div>
             </div>
           ))}
-          {busy && <div className="flex items-center gap-2 text-sm text-slate-400"><LoaderCircle className="animate-spin" size={16} /> Thinking locally…</div>}
+          {busy && <div className="flex items-center gap-2 text-sm text-slate-400"><LoaderCircle className="animate-spin" size={16} /> Thinking {provider === 'opencode' ? 'with OpenCode' : 'locally'}…</div>}
           <div ref={messagesEndRef} />
         </div>
 
@@ -203,7 +235,7 @@ function TutorPanel({ certification }: TutorPanelProps) {
           <textarea
             className="min-h-12 flex-1 resize-y rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-sm outline-none transition focus:border-cyan-400"
             onChange={(event) => setPrompt(event.target.value)}
-            placeholder="Ask your local tutor…"
+            placeholder={`Ask your ${provider === 'opencode' ? 'hosted' : 'local'} tutor…`}
             value={prompt}
           />
           <button className="self-end rounded-xl bg-cyan-400 p-3 text-slate-950 transition hover:bg-cyan-300 disabled:cursor-not-allowed disabled:opacity-40" disabled={busy || modelStatus !== 'ready' || !prompt.trim()} type="submit">

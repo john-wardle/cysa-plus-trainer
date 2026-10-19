@@ -57,6 +57,49 @@ systemd service, the launcher does not restart or reconfigure that service;
 the same backend settings must be persisted in the service configuration
 during installation on that machine.
 
+## Optional hosted OpenCode mode
+
+The trainer defaults to Local Ollama. For faster or higher-capability hosted
+inference, configure OpenCode before launching the trainer:
+
+```bash
+export OPENCODE_API_KEY='your-key'
+export OPENCODE_MODEL='nemotron-3.5-super-vl-free'
+./launch-cysa-trainer.sh
+```
+
+For desktop-launcher use, store the settings in
+`~/.config/cysa-plus-trainer/environment` instead:
+
+```bash
+mkdir -p ~/.config/cysa-plus-trainer
+cat > ~/.config/cysa-plus-trainer/environment <<'EOF'
+OPENCODE_API_KEY='your-go-api-key'
+OPENCODE_API_URL='https://opencode.ai/inference/go/openai/v1/chat/completions'
+OPENCODE_MODELS_URL='https://opencode.ai/inference/go/v1/models'
+OPENCODE_MODEL='deepseek-v4.1-flash'
+EOF
+chmod 600 ~/.config/cysa-plus-trainer/environment
+```
+
+The launcher loads this file automatically, cleans up stale Cysa Trainer API
+and Vite processes before starting, and stops the processes it owns when the
+trainer tab closes.
+
+The server uses OpenCode's OpenAI-compatible inference endpoint by default:
+`https://opencode.ai/inference/openai/v1/chat/completions`. At startup, the
+server fetches the models available to the service account from
+`https://opencode.ai/inference/v1/models` and fills the hosted-model selector
+automatically. Override that URL with `OPENCODE_MODELS_URL` if your account or
+deployment uses another endpoint. If discovery fails, the server falls back to
+`OPENCODE_MODELS`, or `OPENCODE_MODEL` when neither is set.
+
+Hosted mode is opt-in in the trainer UI and is visibly marked remote. The API
+key stays on the server and is never sent to the browser. Hosted mode sends the
+question, conversation, and retrieved trainer context to OpenCode, so do not
+include private or sensitive data. Local Ollama remains the default and keeps
+those requests on the machine.
+
 The API listens on `127.0.0.1:8787`. Vite proxies `/api` requests to it. Confirm it is healthy with:
 
 ```bash

@@ -2,6 +2,18 @@
 set -euo pipefail
 
 project_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+config_dir="${XDG_CONFIG_HOME:-$HOME/.config}/cysa-plus-trainer"
+environment_file="${config_dir}/environment"
+
+if [[ -f "$environment_file" ]]; then
+  # This file is user-owned configuration, not application code. Keep secrets
+  # out of the desktop entry and inherit the values in the child processes.
+  set -a
+  # shellcheck disable=SC1090
+  source "$environment_file"
+  set +a
+fi
+
 host="127.0.0.1"
 web_port="${CYSA_WEB_PORT:-5173}"
 api_port="${API_PORT:-8787}"
@@ -64,6 +76,26 @@ stop_group() {
   fi
 }
 
+cleanup_stale_project_processes() {
+  local pid pgid
+
+  while read -r pid pgid; do
+    [[ -n "$pid" && -n "$pgid" ]] || continue
+    if [[ "$pid" != "$$" && "$pid" != "$PPID" ]]; then
+      kill -- "-$pgid" 2>/dev/null || kill "$pid" 2>/dev/null || true
+    fi
+  done < <(
+    ps -eo pid=,pgid=,args= |
+      awk -v project="$project_dir" '
+        index($0, project "/node_modules/.bin/vite") ||
+        index($0, "node " project "/server/index.mjs") ||
+        index($0, "npm run api") && index($0, project) {
+          print $1, $2
+        }
+      '
+  )
+}
+
 watch_session() {
   local session_dir="$1"
   local session_token="$2"
@@ -102,6 +134,8 @@ if [[ "${1:-}" == "--watch" ]]; then
 fi
 
 cd "$project_dir"
+
+cleanup_stale_project_processes
 
 if command -v systemctl >/dev/null 2>&1 && systemctl is-active --quiet ollama; then
   notify "The system Ollama service is active. Run ./install-cysa-trainer.sh once so the trainer can own and clean up Ollama."

@@ -6,6 +6,15 @@ const host = process.env.API_HOST ?? '127.0.0.1'
 const port = Number(process.env.API_PORT ?? 8787)
 const ollamaUrl = (process.env.OLLAMA_URL ?? 'http://127.0.0.1:11434').replace(/\/$/, '')
 const model = process.env.OLLAMA_MODEL ?? 'llama3.2:3b'
+const opencodeUrl = (process.env.OPENCODE_API_URL ?? 'https://opencode.ai/inference/openai/v1/chat/completions').replace(/\/$/, '')
+const opencodeApiKey = process.env.OPENCODE_API_KEY?.trim() ?? ''
+const opencodeConfiguredModel = process.env.OPENCODE_MODEL ?? ''
+const opencodeModelsUrl = process.env.OPENCODE_MODELS_URL ?? 'https://opencode.ai/inference/v1/models'
+let opencodeModel = opencodeConfiguredModel
+let opencodeModels = (process.env.OPENCODE_MODELS ?? opencodeConfiguredModel)
+  .split(',')
+  .map((entry) => entry.trim())
+  .filter(Boolean)
 const projectRoot = process.cwd()
 const dataRoot = join(projectRoot, 'src', 'data')
 const sessions = new Map()
@@ -102,13 +111,7 @@ function readJson(request) {
 }
 
 async function askOllama(messages, context, selectedModel) {
-  const system = `You are the local AI tutor inside a CySA+ and PenTest+ training application.
-Use the retrieved repository context as your primary source. Explain concepts clearly, distinguish facts from inference, and say when the context is insufficient.
-Do not reveal answer keys unless the user has already submitted the question. Do not invent citations.
-This is defensive education: keep guidance safe, authorized, and lab-oriented.
-
-Retrieved repository context:
-${context.map((chunk, index) => `[Source ${index + 1}: ${chunk.id}]\n${chunk.content}`).join('\n\n')}`
+  const system = buildTutorSystemPrompt(context, false)
 
   const response = await fetch(`${ollamaUrl}/api/chat`, {
     method: 'POST',
@@ -129,6 +132,44 @@ ${context.map((chunk, index) => `[Source ${index + 1}: ${chunk.id}]\n${chunk.con
   return payload.message?.content ?? 'The local model returned an empty response.'
 }
 
+function buildTutorSystemPrompt(context, remote) {
+  return `You are the ${remote ? 'hosted OpenCode' : 'local'} AI tutor inside a CySA+ and PenTest+ training application.
+Use the retrieved repository context as your primary source. Explain concepts clearly, distinguish facts from inference, and say when the context is insufficient.
+Do not reveal answer keys unless the user has already submitted the question. Do not invent citations.
+This is defensive education: keep guidance safe, authorized, and lab-oriented.
+${remote ? 'The user has explicitly selected hosted mode. Their question, conversation, and retrieved context are being sent to a remote OpenCode inference service.' : 'Keep the user\'s question, conversation, and retrieved context on this machine.'}
+
+Retrieved repository context:
+${context.map((chunk, index) => `[Source ${index + 1}: ${chunk.id}]\n${chunk.content}`).join('\n\n')}`
+}
+
+async function askOpenCode(messages, context, selectedModel, sessionId) {
+  if (!opencodeApiKey) throw new Error('Hosted OpenCode is not configured. Set OPENCODE_API_KEY, then restart the trainer.')
+
+  const response = await fetch(opencodeUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${opencodeApiKey}`,
+      'x-opencode-session': sessionId,
+    },
+    body: JSON.stringify({
+      model: selectedModel || opencodeModel,
+      stream: false,
+      temperature: 0.2,
+      messages: [{ role: 'system', content: buildTutorSystemPrompt(context, true) }, ...messages.slice(-8)],
+    }),
+  })
+
+  if (!response.ok) {
+    const details = await response.text()
+    throw new Error(`OpenCode returned HTTP ${response.status}.${details ? ` ${details.slice(0, 240)}` : ''}`)
+  }
+
+  const payload = await response.json()
+  return payload.choices?.[0]?.message?.content ?? 'The hosted model returned an empty response.'
+}
+
 async function listOllamaModels() {
   const response = await fetch(`${ollamaUrl}/api/tags`)
   if (!response.ok) throw new Error(`Ollama returned HTTP ${response.status} while listing models.`)
@@ -136,6 +177,33 @@ async function listOllamaModels() {
   return (payload.models ?? [])
     .map((entry) => entry.name)
     .filter((name) => typeof name === 'string')
+}
+
+async function discoverOpenCodeModels() {
+  if (!opencodeApiKey) return
+
+  try {
+    const response = await fetch(opencodeModelsUrl, {
+      headers: { Authorization: `Bearer ${opencodeApiKey}` },
+      signal: AbortSignal.timeout(10_000),
+    })
+    if (!response.ok) throw new Error(`HTTP ${response.status}`)
+
+    const payload = await response.json()
+    const discovered = (payload.data ?? [])
+      .map((entry) => (typeof entry?.id === 'string' ? entry.id.trim() : ''))
+      .filter(Boolean)
+
+    if (discovered.length === 0) throw new Error('the response contained no model IDs')
+
+    opencodeModels = discovered
+    opencodeModel = discovered.includes(opencodeConfiguredModel)
+      ? opencodeConfiguredModel
+      : discovered[0]
+    console.log(`OpenCode models discovered: ${discovered.length}; default: ${opencodeModel}`)
+  } catch (error) {
+    console.warn(`Could not discover OpenCode models; using configured list. ${error instanceof Error ? error.message : ''}`.trim())
+  }
 }
 
 async function loadOllamaModel(selectedModel) {
@@ -171,13 +239,43 @@ const server = createServer(async (request, response) => {
   const requestUrl = new URL(request.url ?? '/', 'http://127.0.0.1')
 
   if (request.method === 'GET' && requestUrl.pathname === '/api/health') {
-    sendJson(response, 200, { ok: true, model, chunks: knowledgeBase.length })
+    sendJson(response, 200, {
+      ok: true,
+      chunks: knowledgeBase.length,
+      providers: {
+        ollama: { available: true, defaultModel: model },
+        opencode: { available: Boolean(opencodeApiKey), defaultModel: opencodeModel },
+      },
+    })
+    return
+  }
+
+  if (request.method === 'GET' && requestUrl.pathname === '/api/providers') {
+    sendJson(response, 200, {
+      providers: [
+        { id: 'ollama', label: 'Local Ollama', available: true, remote: false, defaultModel: model },
+        {
+          id: 'opencode',
+          label: 'Hosted OpenCode',
+          available: Boolean(opencodeApiKey),
+          remote: true,
+          defaultModel: opencodeModel,
+          setup: 'Set OPENCODE_API_KEY and restart the trainer.',
+        },
+      ],
+    })
     return
   }
 
   if (request.method === 'GET' && requestUrl.pathname === '/api/models') {
     try {
-      sendJson(response, 200, { models: await listOllamaModels(), defaultModel: model })
+      const provider = requestUrl.searchParams.get('provider') ?? 'ollama'
+      if (provider === 'opencode') {
+        if (!opencodeApiKey) throw new Error('Hosted OpenCode is not configured. Set OPENCODE_API_KEY, then restart the trainer.')
+        sendJson(response, 200, { models: opencodeModels, defaultModel: opencodeModel, provider })
+        return
+      }
+      sendJson(response, 200, { models: await listOllamaModels(), defaultModel: model, provider: 'ollama' })
     } catch (error) {
       sendJson(response, 503, {
         error: error instanceof Error ? error.message : 'Unable to list local models.',
@@ -189,7 +287,18 @@ const server = createServer(async (request, response) => {
   if (request.method === 'POST' && requestUrl.pathname === '/api/model/load') {
     try {
       const body = await readJson(request)
+      const provider = body.provider === 'opencode' ? 'opencode' : 'ollama'
       const selectedModel = typeof body.model === 'string' ? body.model.trim() : ''
+
+      if (provider === 'opencode') {
+        if (!opencodeApiKey || !selectedModel || !opencodeModels.includes(selectedModel)) {
+          sendJson(response, 400, { error: 'Hosted OpenCode is not configured with a valid model.' })
+          return
+        }
+        sendJson(response, 200, { ok: true, model: selectedModel, provider, status: 'ready' })
+        return
+      }
+
       const installedModels = await listOllamaModels()
 
       if (!selectedModel || !installedModels.includes(selectedModel)) {
@@ -240,26 +349,39 @@ const server = createServer(async (request, response) => {
       const messages = Array.isArray(body.messages) ? body.messages : []
       const question = messages.at(-1)?.content?.trim()
       const certification = body.certification === 'PenTest+' ? 'PenTest+' : 'CySA+'
+      const provider = body.provider === 'opencode' ? 'opencode' : 'ollama'
       const selectedModel = typeof body.model === 'string' && body.model.trim() ? body.model.trim() : model
+      const sessionId = typeof body.sessionId === 'string' && /^[a-zA-Z0-9._:-]{1,200}$/.test(body.sessionId)
+        ? body.sessionId
+        : `cysa-plus-trainer-${request.headers.get('x-opencode-session') ?? 'default'}`
 
       if (!question) {
         sendJson(response, 400, { error: 'A question is required.' })
         return
       }
 
-      const installedModels = await listOllamaModels()
-      if (!installedModels.includes(selectedModel)) {
-        sendJson(response, 400, {
-          error: `Model "${selectedModel}" is not installed. Pull it with: ollama pull ${selectedModel}`,
-        })
-        return
-      }
-
       const context = retrieve(question, certification)
-      const answer = await askOllama(messages, context, selectedModel)
+      let answer
+      if (provider === 'opencode') {
+        if (!opencodeApiKey || !opencodeModels.includes(selectedModel)) {
+          sendJson(response, 400, { error: 'Hosted OpenCode is not configured with a valid model.' })
+          return
+        }
+        answer = await askOpenCode(messages, context, selectedModel, sessionId)
+      } else {
+        const installedModels = await listOllamaModels()
+        if (!installedModels.includes(selectedModel)) {
+          sendJson(response, 400, {
+            error: `Model "${selectedModel}" is not installed. Pull it with: ollama pull ${selectedModel}`,
+          })
+          return
+        }
+        answer = await askOllama(messages, context, selectedModel)
+      }
       sendJson(response, 200, {
         answer,
         model: selectedModel,
+        provider,
         sources: context.map(({ id, file, score }) => ({ id, file, score })),
       })
     } catch (error) {
@@ -272,6 +394,8 @@ const server = createServer(async (request, response) => {
 
   sendJson(response, 404, { error: 'Not found.' })
 })
+
+await discoverOpenCodeModels()
 
 server.listen(port, host, () => {
   console.log(`Self-hosted tutor API listening at http://${host}:${port}`)
