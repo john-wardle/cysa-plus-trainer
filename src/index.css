@@ -24,10 +24,22 @@ button {
 }
 
 .tutor-messages {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+  width: 100%;
+  scrollbar-width: thin;
+  scrollbar-color: rgb(71 85 105) transparent;
 }
 
 .tutor-messages::-webkit-scrollbar {
-  display: none;
+  width: 8px;
+}
+
+.tutor-messages::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.tutor-messages::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: 9999px;
+  background-clip: padding-box;
+  background-color: rgb(71 85 105);
 }

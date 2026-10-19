@@ -9,6 +9,29 @@ ollama_url="${OLLAMA_URL:-http://127.0.0.1:11434}"
 ollama_model="${OLLAMA_MODEL:-llama3.2:3b}"
 web_url="http://${host}:${web_port}/"
 runtime_root="${XDG_RUNTIME_DIR:-/tmp}"
+ollama_env=()
+
+detect_ollama_acceleration() {
+  if command -v nvidia-smi >/dev/null 2>&1 && nvidia-smi -L >/dev/null 2>&1; then
+    echo "NVIDIA GPU detected; leaving Ollama backend selection automatic." >&2
+    return
+  fi
+
+  if command -v lspci >/dev/null 2>&1 && lspci | grep -Eiq 'VGA|3D|Display' && lspci | grep -Eiq 'Intel'; then
+    if compgen -G '/dev/dri/renderD*' >/dev/null; then
+      ollama_env=(OLLAMA_VULKAN=1 OLLAMA_IGPU_ENABLE=1 GGML_VK_VISIBLE_DEVICES=0)
+      echo "Intel GPU detected; enabling Ollama Vulkan iGPU backend." >&2
+      return
+    fi
+  fi
+
+  if command -v lspci >/dev/null 2>&1 && lspci | grep -Eiq 'VGA|3D|Display' && lspci | grep -Eiq 'AMD|ATI'; then
+    echo "AMD GPU detected; leaving Ollama backend selection automatic." >&2
+    return
+  fi
+
+  echo "No supported GPU detected; Ollama will use CPU inference." >&2
+}
 
 notify() {
   notify-send "CySA+ Trainer" "$1" 2>/dev/null || true
@@ -80,6 +103,14 @@ fi
 
 cd "$project_dir"
 
+if command -v systemctl >/dev/null 2>&1 && systemctl is-active --quiet ollama; then
+  notify "The system Ollama service is active. Run ./install-cysa-trainer.sh once so the trainer can own and clean up Ollama."
+  echo "The system Ollama service is active. Run ./install-cysa-trainer.sh once, then retry the trainer launcher." >&2
+  exit 1
+fi
+
+detect_ollama_acceleration
+
 if ! command -v npm >/dev/null 2>&1 || ! command -v curl >/dev/null 2>&1; then
   notify "npm and curl are required to launch the trainer."
   exit 1
@@ -97,7 +128,7 @@ if ! is_ready "${ollama_url}/api/tags"; then
     rm -rf -- "$session_dir"
     exit 1
   fi
-  ollama_pid="$(start_group "${session_dir}/ollama.log" ollama serve)"
+  ollama_pid="$(start_group "${session_dir}/ollama.log" env "${ollama_env[@]}" ollama serve)"
   if ! wait_for "${ollama_url}/api/tags"; then
     notify "Ollama did not become ready. Check ${session_dir}/ollama.log."
     stop_group "$ollama_pid"

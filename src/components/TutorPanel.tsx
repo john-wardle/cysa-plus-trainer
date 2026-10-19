@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { FormEvent } from 'react'
 import { BookOpen, Bot, LoaderCircle, RefreshCw, Send } from 'lucide-react'
 import type { Certification } from '../data/questionBank'
@@ -39,6 +39,7 @@ async function readJsonResponse(response: Response) {
 }
 
 function TutorPanel({ certification }: TutorPanelProps) {
+  const messagesEndRef = useRef<HTMLDivElement>(null)
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'assistant',
@@ -53,6 +54,10 @@ function TutorPanel({ certification }: TutorPanelProps) {
   const [selectedModel, setSelectedModel] = useState('')
   const [modelsLoading, setModelsLoading] = useState(true)
   const [modelStatus, setModelStatus] = useState<ModelStatus>('idle')
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+  }, [messages, busy])
 
   async function loadSelectedModel(model: string) {
     if (!model) return
@@ -130,7 +135,7 @@ function TutorPanel({ certification }: TutorPanelProps) {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="w-full min-w-0 space-y-6">
       <div>
         <p className="mb-2 text-sm font-medium text-cyan-300">LOCAL AI TUTOR</p>
         <h2 className="text-3xl font-bold tracking-tight">Study with your own model.</h2>
@@ -139,7 +144,7 @@ function TutorPanel({ certification }: TutorPanelProps) {
         </p>
       </div>
 
-      <section className="rounded-2xl border border-cyan-400/25 bg-slate-900 p-6">
+      <section className="w-full min-w-0 rounded-2xl border border-cyan-400/25 bg-slate-900 p-6">
         <div className="mb-5 flex items-center gap-3">
           <div className="rounded-xl bg-cyan-400/15 p-2 text-cyan-300"><Bot size={22} /></div>
           <div>
@@ -180,7 +185,7 @@ function TutorPanel({ certification }: TutorPanelProps) {
           </p>
         </div>
 
-        <div className="tutor-messages max-h-[520px] space-y-4 overflow-y-auto pr-2">
+        <div className="tutor-messages min-h-[18rem] h-[min(55vh,32rem)] space-y-4 overflow-y-auto pr-2">
           {messages.map((message, index) => (
             <div className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`} key={`${message.role}-${index}`}>
               <div className={`max-w-3xl whitespace-pre-wrap rounded-2xl px-4 py-3 text-sm leading-6 ${message.role === 'user' ? 'bg-cyan-400 text-slate-950' : 'bg-slate-950 text-slate-200'}`}>
@@ -189,6 +194,7 @@ function TutorPanel({ certification }: TutorPanelProps) {
             </div>
           ))}
           {busy && <div className="flex items-center gap-2 text-sm text-slate-400"><LoaderCircle className="animate-spin" size={16} /> Thinking locally…</div>}
+          <div ref={messagesEndRef} />
         </div>
 
         {error && <p className="mt-4 rounded-lg border border-rose-400/30 bg-rose-400/10 p-3 text-sm text-rose-200">{error}</p>}

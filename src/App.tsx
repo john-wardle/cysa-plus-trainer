@@ -352,7 +352,7 @@ function App() {
           ))}
         </aside>
 
-        <section className="space-y-8">
+        <section className="min-w-0 space-y-8">
           {activeMode === 'AI Tutor' ? (
             <TutorPanel certification={selectedCertification} />
           ) : activeMode === 'PBQ Labs' ? (

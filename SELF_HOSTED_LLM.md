@@ -33,14 +33,29 @@ Open the local URL printed by Vite, select `AI Tutor`, and ask a question.
 
 The AI Tutor model selector is populated from the models installed in Ollama. Select a different model before sending the next prompt, or install one from a terminal with `ollama pull <model-name>` and use the in-app refresh control.
 
-For one-command startup, make the launcher executable once and run it:
+For one-time setup, run the installer. It disables the systemd Ollama service
+so the trainer launcher can own Ollama and stop it when the trainer session
+closes. It also installs the locked frontend dependencies:
 
 ```bash
-chmod +x launch-cysa-trainer.sh
+./install-cysa-trainer.sh
+```
+
+For one-command startup, run the launcher:
+
+```bash
 ./launch-cysa-trainer.sh
 ```
 
-The launcher starts only services that are not already running, opens the trainer with a session heartbeat, and watches for the tab to close. It then stops only the Ollama, tutor API, and Vite processes that it started itself. Existing services are left alone.
+The launcher starts only services that are not already running, opens the trainer with a session heartbeat, and watches for the tab to close. It then stops the Ollama, tutor API, and Vite processes that it started itself. If a systemd-managed Ollama service is active, the launcher stops and explains the required one-time setup instead of reusing a process it cannot clean up.
+
+At startup, the launcher checks the local hardware. It enables Ollama's
+Vulkan integrated-GPU backend for Intel graphics, leaves Ollama's native
+backend selection automatic for NVIDIA and AMD graphics, and falls back to
+CPU when no supported GPU is detected. If Ollama is already running as a
+systemd service, the launcher does not restart or reconfigure that service;
+the same backend settings must be persisted in the service configuration
+during installation on that machine.
 
 The API listens on `127.0.0.1:8787`. Vite proxies `/api` requests to it. Confirm it is healthy with:
 
